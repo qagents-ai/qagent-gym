@@ -1,5 +1,9 @@
 # Offline recipes for the Quentin team
 
+For larger application scenarios, see the [KA220 proposal workflow](erasmus-example.md),
+[banking application sandbox](banking-example.md), and [English/Greek voice pipeline](voice-example.md).
+The voice example additionally exercises optional local ASR and native TTS.
+
 These examples use real qagents Agent loops with deterministic Python policies
 through FunctionModel. They calculate answers, execute tools, review outputs and
 reuse persisted lessons. They do not call hosted models, measure LLM quality,

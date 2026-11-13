@@ -59,6 +59,12 @@ existing public extension points:
   for future coding-task curricula without moving their control loop into Gym.
 - **Tracing:** reuse `OTelHooks`; add Gym episode/reward/context correlation as a
   separate integration. A collector choice should not alter permissions or replay.
+- **Durable evaluation:** a future adapter can use `Workflow.run_agent` for
+  journaled evaluation steps and consume existing hooks/events and usage records.
+  The current Gym adapter calls `Agent.run`; it does not yet provide this workflow bridge.
+- **External memory writes:** use downstream idempotency keyed by the existing
+  operation identity where supported, or explicitly reconcile unknown outcomes.
+  Persisted playbook data alone does not make an external memory write exactly-once.
 - **Visualization:** the existing AG-UI projection is a candidate foundation for
   an interactive Gym run viewer. This update supplies illustrations and CLI
   recipes; it does not implement that viewer.
@@ -107,6 +113,16 @@ the same order and use candidate text when running its generator. Exporting this
 JSON alone neither runs GEPA nor registers a compatible optimizer adapter.
 
 ## Evaluation needed before a stronger quality claim
+
+For the requested voice-agent scenarios, the new [bilingual voice example](voice-example.md)
+has now exercised faster-whisper with native Windows TTS and a qagents scripted
+responder. It records actual local latency and pins PyAV for a reproduced upstream
+compatibility issue. For browser/phone deployment, evaluate
+[LiveKit Agents](https://docs.livekit.io/agents/) for WebRTC, turn detection and
+interruptions, or [Pipecat](https://github.com/pipecat-ai/pipecat) for modular
+realtime audio pipelines. These are future transport integrations; no LiveKit or
+Pipecat runtime was installed or exercised here. Keep qagents' tool permissions
+authoritative when connecting either transport.
 
 Use fixed disjoint train, optimizer-validation and untouched test task IDs; freeze
 memory/playbooks for every candidate comparison. Persist dataset fingerprints,

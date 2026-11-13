@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Add a complete fictional KA220 proposal workflow with separate reviewer,
+  budget/section checks, persisted correction and explicit evidence gaps.
+- Add a transactional banking sandbox driven by real qagents tool calls, with
+  principal-bound authorization, paired ledger entries and idempotent transfers.
+- Add an English/Greek audio pipeline with native local ASR/TTS, measured latency,
+  interruption, worker deadlines, bounded WAV inputs and partial-file cleanup.
+  Keep speech dependencies in a separate optional environment.
+
 - Add five executable offline recipes covering peer feedback, tool regression,
   frozen before/after evaluation, injected Mem0/Lightning clients and data exports.
 - Add Inspect JSONL export with separate answer keys, ID alignment, explicit

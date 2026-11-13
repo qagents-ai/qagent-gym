@@ -1,5 +1,44 @@
 # Validation record
 
+## Application scenarios update
+
+Checked on 2026-11-13 against qagents' frozen stage-0 runtime at `4380241`.
+
+| Check | Observed result |
+| --- | --- |
+| Combined source suite | 168 passed, 1 optional Inspect test skipped, in 9.16 seconds |
+| Installed-wheel suite | 168 passed, 1 optional Inspect test skipped, in 8.64 seconds; wheel import and offline demo passed |
+| KA220 workflow | 38 tests; executed 3,201-word draft, 75 document checks, 7 initial errors to 0 final errors, 6 evidence warnings remain |
+| Banking application | 13 tests; actual CLI/tool execution, rollback, ownership and concurrent-transfer checks |
+| Voice pipeline | 15 tests; interruption, caller cancellation, partial writes, WAV bounds, worker timeouts and bilingual qagents replies |
+| Native voice run | 6 actual ASR/TTS trials; median first response WAV 483 ms English / 555 ms Greek; zero WER on two synthetic input phrases |
+| Ruff lint and formatting | Passed; 37 Python files formatted |
+| qagents check_code | 42 Python files and documentation snippets; zero failures; changed Erasmus files also rechecked after review fixes |
+| Packaging | Wheel and source distribution built; source distribution includes application fixtures and native speech worker |
+
+The voice measurement includes audio validation through first-WAV creation and
+reports startup separately. It excludes recording, playback, network and a live
+LLM. Native ASR/TTS dependencies were installed in an isolated Gym-local environment;
+the qagents environment stayed unchanged. Initial native execution exposed a
+faster-whisper/PyAV API mismatch; the tested compatible versions are pinned in the
+optional speech requirements. Review findings prompted red/green regressions for
+partial-file cleanup and cancellation propagation, plus additional bounds and
+deadline checks. See [voice measurements and reproduction](voice-example.md).
+
+The Erasmus+ output is a fictional worked planning draft with explicit evidence
+gaps. Its final evaluation revises the same brief and does not establish held-out
+generalization. The banking sample uses fictional TEST units and a host-injected
+principal; it is not a production financial service. All qagents policies in these
+examples are deterministic. See [Erasmus verification](erasmus-example.md) and
+[banking checks](banking-example.md).
+
+Final review also exposed a proposal-output race. Before correction, concurrent
+runs could share a database or overwrite artifacts created while planning was
+awaited. Six new regressions failed on that implementation. The corrected recipe
+claims its destination exclusively before agent work and creates its database
+and artifacts exclusively; 38 Erasmus tests now pass, including contention and
+preservation of externally created files.
+
 ## Quentin team examples and evaluation exports update
 
 Checked on 2026-11-13 against qagents' public API. The final source and installed-

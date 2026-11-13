@@ -59,6 +59,28 @@ See [the example guide](docs/examples.md) for expected outputs and persistent
 database options. These scripted demonstrations check behavior; their scores
 are not evidence of improvement on real models.
 
+## Application scenarios
+
+- **[Erasmus+ KA220 proposal](docs/erasmus-example.md):** generate a complete
+  fictional adult-education planning draft, review its sections and budget, persist
+  a correction, and produce the corrected proposal with unresolved evidence gaps.
+  Run `python -m examples.erasmus_proposal --output-dir .gym/erasmus-proposal`.
+- **[Banking application](docs/banking-example.md):** use actual qagents tools for
+  accounts, balances, history and transfers in a persistent fictional ledger.
+  Run `python -m examples.banking_app --db .gym/banking.sqlite3 demo`.
+  Ownership, paired postings, idempotency and concurrent-spend checks are tested.
+- **[English and Greek voice](docs/voice-example.md):** connect local ASR to qagents
+  and native speech synthesis, with interruption, deadlines and separate latency
+  measurements. The guide includes optional speech dependencies and the full run
+  command. Six native audio trials passed; median first-response-WAV times were
+  483 ms in English and 555 ms in Greek on the tested machine.
+
+These scenarios use deterministic qagents policies. The voice recognition and
+synthesis checks use real local speech models/voices. The KA220 output is a
+fictional draft requiring real evidence and call-specific review; the banking
+sample uses only local TEST units. Voice measurements cover short synthetic
+utterances and exclude recording/playback, network and live-LLM latency.
+
 ## Use your own qagents agents
 
 `QAgentsGenerator` takes an existing text-output `Agent`. It calls public
