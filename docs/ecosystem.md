@@ -81,7 +81,7 @@ See [usage and limits](optimization.md).
 Emit one JSON object per task, using a separately supplied answer mapping:
 
 ```json
-{"input":"Task prompt","target":"Expected answer","id":"task-1","metadata":{"qagent_gym_split":"eval"}}
+{"input":"Task prompt","target":"Expected answer","id":"task-1","metadata":{"qagent_gym_split":"eval","partition":"test"}}
 ```
 
 Use Inspect's existing `json_dataset(path)` reader. The exporter validates IDs,
