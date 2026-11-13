@@ -1,0 +1,29 @@
+{
+  "description": "Compact artifacts from the verified actual-worker-PID baseline; full per-trial databases/logs remain in the local run directory",
+  "artifacts": [
+    {
+      "name": "raw.json",
+      "sha256": "2ba5e0494e41e020af8741c66aedf31e96c513d89b37f93da8e89caa476160cb"
+    },
+    {
+      "name": "summary.json",
+      "sha256": "595bcbc797dc3fbbd141d828d161344f304ef5c12c6a6d80f271ad73c7462a7e"
+    },
+    {
+      "name": "metadata.json",
+      "sha256": "466ba90e07a404580027e5887e24ae306b70e705d9f27dd62d279636c8a2c5c0"
+    },
+    {
+      "name": "source_integrity.json",
+      "sha256": "f6865dab0b7ce9a1d5685bbd94269f9c31f183f4fd4a4a2fe055a54c70aeb545"
+    },
+    {
+      "name": "recovery-distributions.svg",
+      "sha256": "df0cdfda2fe96f6d395aa2d1fca1dedfe589de8e7d1bd86a30f1d2c229797826"
+    },
+    {
+      "name": "recovery-distributions.png",
+      "sha256": "c7907facf7832c0b4ac26481e5bcd0360e88fa1773b4c17832d50a1f2b3dd66b"
+    }
+  ]
+}

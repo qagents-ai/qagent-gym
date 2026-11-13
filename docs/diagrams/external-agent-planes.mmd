@@ -1,0 +1,16 @@
+sequenceDiagram
+  accTitle: External-agent control and tool protocols
+  accDescr: QAgents drives an external agent over ACP or the Devvi SDK. The external agent separately calls application tools using MCP, where host permissions and journaling apply.
+  participant Lead as QAgents lead
+  participant Agent as External agent
+  participant Tools as QAgents MCP server<br/>(bound to a run)
+  Note over Lead,Agent: CONTROL PLANE — ACP or Devvi SDK
+  Lead->>Agent: Task + session + workspace
+  Agent->>Lead: Steps + permission requests
+  Lead->>Agent: Approval decision or cancel
+  Note over Agent,Tools: TOOL PLANE — MCP
+  Agent->>Tools: Typed tool call
+  Note right of Tools: Check permissions<br/>Journal through supplied ctx
+  Tools-->>Agent: Tool result
+  Note over Lead,Agent: CONTROL PLANE
+  Agent-->>Lead: Final answer + turn completion

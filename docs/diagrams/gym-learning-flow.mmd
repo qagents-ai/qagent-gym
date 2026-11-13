@@ -1,0 +1,25 @@
+flowchart TB
+  accTitle: Training changes context; evaluation freezes it
+  accDescr: Training runs the agent, evaluates its answer, then reflects and curates validated lessons. Evaluation captures context before its batch, runs heldout tasks and records scores without learning writes. Answer keys are confined to evaluators.
+  subgraph TRAIN["TRAIN — learn from feedback"]
+    direction TB
+    generate["Run a training task\nAgent uses current context"]
+    score["Evaluate the answer\nPrivate answer keys stay here"]
+    reflect["Reflect + curate\nPersist validated context updates"]
+    generate --> score --> reflect
+  end
+  memory[("SCOPED CONTEXT\nPlaybook + memory")]
+  subgraph EVAL["EVALUATE — freeze learning"]
+    direction TB
+    capture["Capture all task contexts\nBefore starting the batch"]
+    heldout["Run heldout tasks\nAgent sees no answer keys"]
+    evalscore["Score the outputs\nPrivate answer keys stay here"]
+    result["Record evaluation episodes\nNo lessons or memory writes"]
+    capture --> heldout --> evalscore --> result
+  end
+  memory -->|context for next task| TRAIN
+  memory -->|frozen snapshot| EVAL
+  classDef frozen fill:#eef2f7,stroke:#476a93;
+  classDef private fill:#fff6e6,stroke:#aa741f;
+  class capture,heldout,result frozen;
+  class score,evalscore private;

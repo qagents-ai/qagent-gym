@@ -6,7 +6,10 @@ Persistent context learning and frozen evaluation for **qagents**. Run an agent,
 evaluate its result, reflect on feedback, and apply incremental playbook changes.
 The next task receives the learned playbook and relevant memories.
 
-![Try a task, reflect on feedback, remember useful lessons, then evaluate without changing memory](assets/quentin-gym-learning-loop.png)
+![Training updates learned context; evaluation uses a captured context without learning writes](assets/diagrams/gym-learning-flow.svg)
+
+The [architecture diagrams](docs/diagrams/README.md) include editable Mermaid
+sources and rendered SVGs for execution, memory and evaluation.
 
 This first release implements an **ACE-inspired** generator/reflector/curator loop.
 It does not depend on either package named `ace`, reproduce the ACE paper's
@@ -41,6 +44,20 @@ python -m ruff check src tests examples
 python -m ruff format --check src tests examples
 python -m hatchling build
 ```
+
+## Run a configured model
+
+Use an existing local or hosted OpenAI-compatible endpoint that supports tool calls:
+
+```console
+python -m examples.real_agents tools --base-url http://127.0.0.1:8000/v1 --model YOUR_MODEL_ID
+```
+
+The [real-agent guide](docs/real-agents.md) walks through typed tools, an explicit
+approval followed by durable resume, and a supervisor delegating to a specialist.
+It explains provider configuration and how to inspect the actual tool results.
+The provider path was tested with mock HTTP responses; no live model call is
+implied. Choose `--fixture` explicitly for an offline setup check.
 
 ## More runnable examples
 
@@ -180,6 +197,11 @@ See [SPEC.md](SPEC.md) for contracts and acceptance criteria and
 [Background worker recipes](docs/background-jobs.md) exercise queued runs,
 cancellation and recovery using the qagents runtime. Their limits are documented
 separately from the Gym learning transaction.
+
+The [recovery benchmark](docs/recovery-benchmark.md) compares QAgents and LangGraph
+using an independent durable service ledger, matching fault boundaries and real
+worker-process termination. It records correctness controls, raw observations
+and separate startup, lease-wait and recovery timings.
 
 Build a local copy with `python scripts/build_guides.py --output .work/guides`.
 The [hosting guide](docs/guides-hosting.md) describes the private publication
