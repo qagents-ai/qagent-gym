@@ -1,8 +1,12 @@
 # QAgent Gym
 
+![Quentin team robots practicing with memory, playbooks, feedback and evaluation](assets/quentin-gym-hero.png)
+
 Persistent context learning and frozen evaluation for **qagents**. Run an agent,
 evaluate its result, reflect on feedback, and apply incremental playbook changes.
 The next task receives the learned playbook and relevant memories.
+
+![Try a task, reflect on feedback, remember useful lessons, then evaluate without changing memory](assets/quentin-gym-learning-loop.png)
 
 This first release implements an **ACE-inspired** generator/reflector/curator loop.
 It does not depend on either package named `ace`, reproduce the ACE paper's
@@ -37,6 +41,23 @@ python -m ruff check src tests examples
 python -m ruff format --check src tests examples
 python -m hatchling build
 ```
+
+## More runnable examples
+
+These recipes use the real qagents loop with scripted models and local state.
+They need no model credentials:
+
+| Recipe | Run | What it checks |
+| --- | --- | --- |
+| Peer feedback | `python -m examples.peer_feedback` | A reviewer gives feedback that becomes a reusable writing rule. |
+| Tool regression | `python -m examples.tool_regression` | Tool calls, results and units stay aligned across tasks. |
+| Before/after evaluation | `python -m examples.before_after` | The same fixed test tasks run before and after learning with frozen memory. |
+| Optional integrations | `python -m examples.integration_contracts` | Mem0 and Lightning boundaries run against fake clients. |
+| Evaluation exports | `python -m examples.evaluation_exports --db .gym/evaluation-exports/gym.sqlite3` | Separate answer keys go to Inspect JSONL; only training feedback goes to GEPA reflection data. |
+
+See [the example guide](docs/examples.md) for expected outputs and persistent
+database options. These scripted demonstrations check behavior; their scores
+are not evidence of improvement on real models.
 
 ## Use your own qagents agents
 
@@ -112,6 +133,11 @@ It is outside base dependencies. [Agent Lightning and RL](docs/rl.md) documents
 the v1 gateway route, Linux/WSL constraints, TRL/verl alternatives, and a pure
 reward-event bridge. Fake-client tests validate these boundaries; no live Mem0
 service, Lightning controller or optimizer has been run.
+
+[Inspect AI and GEPA exports](docs/optimization.md) support independent evaluation
+and future context optimization without adding either framework to base dependencies.
+The [current ecosystem survey](docs/ecosystem.md) ranks further integrations and
+records upstream versions, contracts, licenses and the experiments still needed.
 
 See [SPEC.md](SPEC.md) for contracts and acceptance criteria and
 [sources and licenses](docs/sources.md) for upstream references.

@@ -1,5 +1,39 @@
 # Validation record
 
+## Quentin team examples and evaluation exports update
+
+Checked on 2026-11-13 against qagents' public API during a stable source window
+after its stage-0 F1 fix.
+
+| Check | Observed result |
+| --- | --- |
+| Combined source suite | 102 passed in 6.34 seconds |
+| Installed-wheel suite | 102 passed in 5.80 seconds |
+| New export contracts | 24 passed |
+| New examples | 10 passed; all five module entry points executed |
+| Ruff lint and formatting | Passed; 27 Python files formatted |
+| qagents check_code | 32 Python files and documentation snippets; zero failures |
+| Package build | Wheel and source distribution built with isolated Gym-local tooling |
+| Installed wheel | New export functions imported from the wheel target; original offline demo passed |
+| Artwork | Two generated PNGs inspected for labels, composition and context-learning meaning |
+
+Independent review found a Unicode preflight issue in the Inspect exporter.
+Three tests demonstrated partial files for malformed second-row input, target
+and ID values. The exporter now validates UTF-8 bytes before creating a file;
+all three regressions pass. Two further malformed exclusion-list regressions
+also failed before validation was tightened. The initial wheel test harness
+could not find repository examples; adding the repository root (without src) to
+the harness path fixed collection, and the complete wheel suite then passed.
+
+Inspect and GEPA themselves were not installed or executed. The export contracts
+follow their current official documentation; a live solver or optimizer remains
+separate work. No real-model quality result or RL training result is claimed.
+The source and wheel tests used the existing qagents environment without modifying
+its packages. See [the example validation](validation-examples.md),
+[optimization boundaries](optimization.md), and [art prompts](../assets/README.md).
+
+## Initial implementation
+
 Checked on 2026-11-13 on Windows, Python 3.13.18, against the local qagents 0.2.0
 public API. No live model, Mem0 service, training controller, or optimizer was called.
 
