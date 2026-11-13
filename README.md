@@ -150,11 +150,20 @@ extension point; no consensus or social-learning algorithm is implemented.
 
 ## Optional integrations
 
-[Mem0](docs/memory.md) is an injected, validated adapter for a preconfigured client.
-It is outside base dependencies. [Agent Lightning and RL](docs/rl.md) documents
-the v1 gateway route, Linux/WSL constraints, TRL/verl alternatives, and a pure
-reward-event bridge. Fake-client tests validate these boundaries; no live Mem0
-service, Lightning controller or optimizer has been run.
+[Six integration recipes](docs/integrations.md) connect Mem0, LangGraph, DSPy,
+ElevenLabs, Twilio and OpenTelemetry through explicit, optional adapters.
+They include frozen memory snapshots, isolated graph threads, bilingual voice
+fixtures, signed webhooks and correlated agent/reward traces. SDK contract tests
+use real libraries with local inference or transport substitutes.
+
+Install only the extra you need, for example `pip install -e '.[langgraph]'`.
+Importing the adapters does not construct clients or read service credentials.
+No live ElevenLabs synthesis, Twilio phone call or Mem0 service was used in
+validation. See [voice service boundaries](docs/integrations-voice-services.md).
+
+[Agent Lightning and RL](docs/rl.md) documents the v1 gateway route, Linux/WSL
+constraints, TRL/verl alternatives, and a pure reward-event bridge. No Lightning
+controller or optimizer has been run.
 
 [Inspect AI and GEPA exports](docs/optimization.md) support independent evaluation
 and future context optimization without adding either framework to base dependencies.
@@ -165,3 +174,17 @@ records upstream versions, contracts, licenses and the experiments still needed.
 
 See [SPEC.md](SPEC.md) for contracts and acceptance criteria and
 [sources and licenses](docs/sources.md) for upstream references.
+
+## Guides and background jobs
+
+[Background worker recipes](docs/background-jobs.md) exercise queued runs,
+cancellation and recovery using the qagents runtime. Their limits are documented
+separately from the Gym learning transaction.
+
+Build a local copy with `python scripts/build_guides.py --output .work/guides`.
+The [hosting guide](docs/guides-hosting.md) describes the private publication
+workflow; public hosting is not configured.
+
+The [private Quentin handbook](https://quentin-qagents-guides.innovationbee.chatgpt.site/)
+provides a shared entrance to these guides and the qagents runtime reference.
+Access is controlled by the hosting service.

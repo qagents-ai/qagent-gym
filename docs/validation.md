@@ -1,5 +1,37 @@
 # Validation record
 
+## Integrations and background jobs update
+
+Checked on 2026-11-13 on Windows / Python 3.13.18 against canonical qagents
+`96096cb` (package 0.2.0). Existing environments were reused; optional SDKs were
+installed in isolated Gym-local environments, not into the qagents environment.
+
+| Check | Observed result |
+| --- | --- |
+| Complete source suite | 262 passed, 7 optional checks skipped; 14.83 seconds |
+| Complete installed-wheel suite | 262 passed, 7 optional checks skipped; 17.24 seconds; Gym source path excluded, new adapter imports and offline demo verified |
+| Native Mem0 / LangGraph / DSPy | 48 passed with the recorded SDK versions; local Qdrant and deterministic inference substitutes, one expected local-index warning |
+| Native ElevenLabs / Twilio | 52 passed; official clients, mocked HTTP streams and signed local requests; no live service calls |
+| OpenTelemetry | 7 passed; native SDK, shared qagents trace context, metadata-only wrappers, cancellation and pause handling |
+| Background jobs | 7 passed; queued cancellation, store reopen, lease exclusion, preserved run identity and committed-score reuse |
+| Private guide builder | 13 passed; native strict build, link validation and exclusive output handling |
+| Lint / format | Ruff passes; 61 Python files formatted |
+| Canonical qagents suite | 1989 passed, 32 skipped, one existing MLflow deprecation warning; PostgreSQL enabled |
+
+All six integration CLIs and both background CLIs executed. Optional native tests
+distinguish actual SDK code from deterministic models, provider fixtures and mocked
+transports. The OpenTelemetry mutation marking paused output successful failed its
+regression test; the background mutation cancelling the wrong job also failed.
+Both were restored before the complete suites above. Independent reviews found no
+remaining blockers in the adapters, background examples or documentation builder.
+
+No live ElevenLabs synthesis, Twilio telephone call, Mem0 cloud request, hosted
+model request or optimizer/trainer was run. Background restart tests close and
+reopen SQLite in one process; they are not OS-kill or power-loss experiments.
+The Effects 0.3 implementation and dedicated crash harness remain future work.
+See [integration contracts](integrations.md), [background semantics](background-jobs.md),
+[framework comparison](positioning.md) and [private hosting](guides-hosting.md).
+
 ## Application scenarios update
 
 Checked on 2026-11-13 against qagents' frozen stage-0 runtime at `4380241`.
@@ -115,7 +147,8 @@ an identifier-dependent test assertion, and unscoped Mem0 search results.
 - Peer/user corrections can be supplied through the evaluator interface. Their
   factual quality remains the evaluator's responsibility.
 - SQLite memory uses lexical retrieval. Mem0 methods may call configured services;
-  that integration has only fake-client validation.
+  native SDK tests use local Qdrant and deterministic inference substitutes.
+  Live cloud behavior and embedding quality remain untested.
 - Identical delta replay is idempotent and batches are atomic. Distinct updates to
   one bullet use last-writer-wins; serialize training per namespace. The full
   model/curation/memory sequence does not provide transactional crash recovery.

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add six optional integration recipes: Mem0 snapshots, LangGraph, DSPy,
+  ElevenLabs, signed Twilio voice webhooks and OpenTelemetry traces.
+- Validate installed SDK contracts with local transports/inference substitutes;
+  keep clients and service credentials under explicit caller control.
+- Add a strict local/private guide build and documented background runtime recipes.
 - Add a complete fictional KA220 proposal workflow with separate reviewer,
   budget/section checks, persisted correction and explicit evidence gaps.
 - Add a transactional banking sandbox driven by real qagents tool calls, with

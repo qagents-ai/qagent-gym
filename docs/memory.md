@@ -60,6 +60,9 @@ acknowledgement can occur after the remote write succeeded; reconcile the remote
 state before retrying. Transport/provider exceptions propagate unchanged.
 
 Fake-client tests cover mapping, normalization, scope checks, malformed results,
-and pending writes. No live Mem0 service or embedding backend was exercised.
+and pending writes. Native Mem0 2.2.1 tests additionally exercise the actual
+Memory API and local Qdrant with deterministic embedding/LLM substitutes.
+No live Mem0 service or embedding model was exercised. See the
+[snapshot and SDK guide](integrations-memory-frameworks.md) for frozen evaluation.
 Mem0 is [Apache-2.0 licensed](https://github.com/mem0ai/mem0/blob/main/LICENSE);
 model/provider terms are separate.

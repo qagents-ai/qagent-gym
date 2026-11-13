@@ -1,0 +1,29 @@
+site_name: QAgent Gym
+site_description: Persistent context learning, frozen evaluation, and local agent examples.
+strict: true
+use_directory_urls: true
+theme:
+  name: material
+  font: false
+  palette:
+    primary: teal
+    accent: orange
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - tables
+  - pymdownx.details
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+validation:
+  nav:
+    omitted_files: warn
+  links:
+    not_found: warn
+    unrecognized_links: warn
