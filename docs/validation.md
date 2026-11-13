@@ -2,17 +2,18 @@
 
 ## Quentin team examples and evaluation exports update
 
-Checked on 2026-11-13 against qagents' public API during a stable source window
-after its stage-0 F1 fix.
+Checked on 2026-11-13 against qagents' public API. The final source and installed-
+wheel suites ran against frozen stage-0 runtime code at commit `aeecaea`.
 
 | Check | Observed result |
 | --- | --- |
-| Combined source suite | 102 passed in 6.34 seconds |
-| Installed-wheel suite | 102 passed in 5.80 seconds |
+| Combined source suite | 102 passed, 1 optional Inspect test skipped, in 5.74 seconds |
+| Installed-wheel suite | 102 passed, 1 optional Inspect test skipped, in 5.48 seconds |
 | New export contracts | 24 passed |
 | New examples | 10 passed; all five module entry points executed |
-| Ruff lint and formatting | Passed; 27 Python files formatted |
-| qagents check_code | 32 Python files and documentation snippets; zero failures |
+| Native Inspect reader | inspect-ai 0.3.289; native reader plus export suite: 25 passed in 3.33 seconds, `socket.socket.connect` disabled |
+| Ruff lint and formatting | Passed; 28 Python files formatted |
+| qagents check_code | 33 Python files and documentation snippets; zero failures |
 | Package build | Wheel and source distribution built with isolated Gym-local tooling |
 | Installed wheel | New export functions imported from the wheel target; original offline demo passed |
 | Artwork | Two generated PNGs inspected for labels, composition and context-learning meaning |
@@ -25,9 +26,11 @@ also failed before validation was tightened. The initial wheel test harness
 could not find repository examples; adding the repository root (without src) to
 the harness path fixed collection, and the complete wheel suite then passed.
 
-Inspect and GEPA themselves were not installed or executed. The export contracts
-follow their current official documentation; a live solver or optimizer remains
-separate work. No real-model quality result or RL training result is claimed.
+Inspect was subsequently installed in an isolated Gym-local environment to test
+its native dataset reader. The optional reader test skips in environments without
+Inspect; the existing 102 tests do not require it. GEPA was not installed or
+executed. The export contracts follow current official documentation; a live solver
+or optimizer remains separate work. No real-model quality or RL result is claimed.
 The source and wheel tests used the existing qagents environment without modifying
 its packages. See [the example validation](validation-examples.md),
 [optimization boundaries](optimization.md), and [art prompts](../assets/README.md).

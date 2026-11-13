@@ -11,6 +11,8 @@
 - Document the current ecosystem, upstream API and license boundaries, and the
   experiments needed before claiming real-model improvements.
 - Validate 102 tests from source and from the installed wheel.
+- Verify exported datasets with Inspect AI 0.3.289's native JSONL reader in a
+  separate environment, with `socket.socket.connect` disabled.
 
 ## 0.1.0 — initial local implementation
 

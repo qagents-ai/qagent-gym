@@ -32,9 +32,17 @@ test file. These metadata labels do not establish independence by themselves:
 different IDs can still contain the same question or a near duplicate.
 
 The answer key belongs in Inspect's dataset for scoring. A later solver must
-continue passing only the task input to the generator. Native Inspect loading,
-solver behavior and scorer integration require testing with the selected Inspect
-version; current tests validate the exported schema and data separation.
+continue passing only the task input to the generator. Native JSONL loading was
+checked with `inspect-ai==0.3.289`, including Unicode, empty targets, sample order
+and metadata, with `socket.socket.connect` disabled. Solver behavior and scorer
+integration have not been tested.
+
+The optional `tests/test_native_inspect.py` contract skips when Inspect is absent.
+To run it in a separate environment with the selected Inspect version installed:
+
+```powershell
+python -m pytest tests/test_native_inspect.py tests/test_evaluation_exports.py -q
+```
 
 ## GEPA: reflection data
 

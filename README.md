@@ -136,6 +136,8 @@ service, Lightning controller or optimizer has been run.
 
 [Inspect AI and GEPA exports](docs/optimization.md) support independent evaluation
 and future context optimization without adding either framework to base dependencies.
+The optional native-reader test passed with Inspect AI 0.3.289; no solver or
+optimizer run is implied by that check.
 The [current ecosystem survey](docs/ecosystem.md) ranks further integrations and
 records upstream versions, contracts, licenses and the experiments still needed.
 

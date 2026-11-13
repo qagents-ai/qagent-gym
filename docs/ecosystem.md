@@ -17,6 +17,11 @@ checked separately. No third-party rankings, star counts or marketing comparison
 were treated as evidence. No library installation, live service experiment or
 independent benchmark replication was performed by this research task.
 
+Subsequent implementation validation installed `inspect-ai==0.3.289` only in an
+isolated Gym-local environment. Its native JSONL reader loaded the generated
+samples with `socket.socket.connect` disabled. No solver, scorer or model run was
+performed; the other framework contracts remain source- and schema-checked.
+
 Evidence grades: **A** = implementation, official schema or release/license file,
 strong evidence of the inspected contract; **B** = original author paper, evidence
 for its reported experiment only. The [ACE paper](https://arxiv.org/abs/2510.04618v3)
@@ -41,6 +46,30 @@ unmeasured. Rolling docs can be newer than the tagged release.
 | 9 | **LangMem**, main metadata **0.0.30**, MIT; A | Alternative structured memory extraction or prompt refinement when an application already uses LangChain/LangGraph. `create_memory_manager` can return typed memory changes while the caller controls storage. | A reasonable optional reflector/memory adapter; unnecessary base dependencies for this Gym. Extraction uses LLM calls. Keep namespace and deletion policies explicit. [Functional memory guide](https://langchain-ai.github.io/langmem/guides/extract_semantic_memories/), [metadata](https://github.com/langchain-ai/langmem/blob/main/pyproject.toml), [license](https://github.com/langchain-ai/langmem/blob/main/LICENSE) |
 | 10 | **Gymnasium 1.4.0**, MIT; **BrowserGym 0.14.3**, Apache-2.0; A | Reusable environments for a future browser or simulated-tool curriculum. BrowserGym registers Gymnasium tasks and exposes reset/step with observations, reward, terminated and truncated. | Add only for an actual environment benchmark. Browser setup, browser processes and benchmark services are additional infrastructure; the name QAgent Gym does not imply Gymnasium compatibility. Preserve termination versus truncation and close environments. [Gymnasium API](https://gymnasium.farama.org/main/content/basic_usage/), [BrowserGym loop](https://github.com/ServiceNow/BrowserGym#usage), [BrowserGym license](https://github.com/ServiceNow/BrowserGym/blob/main/LICENSE), [Gymnasium release](https://github.com/Farama-Foundation/Gymnasium/releases/tag/v1.4.0) |
 
+## How this fits qagents
+
+Keep the qagents runtime as the execution authority and integrate through its
+existing public extension points:
+
+- **Tools and MCP:** connect environment actions through ordinary tools or
+  `MCPToolkit`. Use the existing MCP tool server when another agent needs access
+  to those tools. An unknown remote outcome must retain its ambiguity rather
+  than becoming an automatic retry.
+- **External agents:** `ExternalAgent` and Devvi's ACP integration provide a seam
+  for future coding-task curricula without moving their control loop into Gym.
+- **Tracing:** reuse `OTelHooks`; add Gym episode/reward/context correlation as a
+  separate integration. A collector choice should not alter permissions or replay.
+- **Visualization:** the existing AG-UI projection is a candidate foundation for
+  an interactive Gym run viewer. This update supplies illustrations and CLI
+  recipes; it does not implement that viewer.
+- **Model providers:** a future Lightning gateway can sit behind an explicitly
+  configured OpenAI-compatible provider. Dataset export and reward submission
+  still require a complete rollout/trainer integration before weights can change.
+
+The qagents Effects handoff remains a separate staged build. Reliability work
+there is a prerequisite for stronger recovery claims; adding an optimizer or
+memory package does not supply those guarantees.
+
 ## Data boundaries implemented in this update
 
 The two helpers below are implemented in `qagent_gym.integrations.evaluation`,
@@ -58,8 +87,8 @@ Emit one JSON object per task, using a separately supplied answer mapping:
 Use Inspect's existing `json_dataset(path)` reader. The exporter validates IDs,
 requires separately supplied targets, rejects duplicate and declared excluded task
 IDs, preserves order, refuses replacement, and keeps target text out of `input`.
-Schema tests run without Inspect. They do not
-establish end-to-end solver or scorer compatibility.
+Schema tests run without Inspect; an additional optional native-reader test passed
+with Inspect 0.3.289. This does not establish solver or scorer compatibility.
 
 ### GEPA reflective-data export
 
