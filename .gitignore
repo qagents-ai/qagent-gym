@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+.work/
+.gym/
+dist/
+*.egg-info/
+.env
+*.sqlite3
+*.sqlite3-*
