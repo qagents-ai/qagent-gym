@@ -83,3 +83,55 @@ python -m ruff format --check examples/erasmus_proposal.py tests/test_erasmus_pr
 Tests run the real agents and CLI; inspect generated proposal content, persisted provenance and frozen learning state; corrupt budget, allocation, timeline, KPI, risk and citation content to test rejection; exercise a changed brief and the clean-draft path; reject incomplete/contradictory inputs before agent creation; and confirm existing output is preserved. Contention tests pause the first planner and start a competing run against both a new and an initially empty directory. Further tests insert Markdown, JSON, JSONL and SQLite files during planning and check their exact bytes remain unchanged; a failed planner retains its reservation.
 
 Validation on 13 November 2026: 38 tests passed, Ruff lint and format checks passed, and the installed qagents API checker reported no problems. The concurrency regressions first reproduced six failures before the reservation fix. The executed default CLI produced a 3,201-word proposal and passed all 75 implemented consistency checks; the six unresolved evidence warnings remained visible.
+
+## Rehearse worker restart and backup restore
+
+The BRIDGE mailbox pilot runs three agents in separate Python processes. The coordinator
+assigns the draft. The writer sends the full Markdown to the reviewer.
+The reviewer checks it and returns feedback. The resumed writer sends
+a corrected draft, and the reviewer sends the final decision to the
+coordinator. Model responses are scripted locally using the fictional
+KA220-ADU brief above.
+
+Use a QAgents checkout at commit `dd74a3d` or later and install both
+packages in the same virtual environment. From QAgent Gym, choose a new
+output directory.
+
+```console
+python -m examples.erasmus_mailbox_pilot .gym/bridge-recovery
+```
+
+The controller terminates the writer after SQLite commits its first
+outgoing message and before QAgents records the tool result. It verifies
+the SQLite inbox contains that draft and waits for the writer's lease
+to expire before resuming. The two recovery paths use the same interruption
+point.
+
+1. The restart uses the original mailbox and agent journals.
+2. The restore copies a backup to a fresh directory and continues with
+   fresh processes and restored sessions.
+
+The controller takes the backup while all workers are stopped. It uses
+SQLite's backup API for the mailbox and each of the three agent journals,
+then checks each copy with `PRAGMA integrity_check`. Keep the four
+databases together. Each file has its own SQLite transaction, so stopping
+writers is what gives this exercise a consistent recovery point across
+the set. See the [SQLite Backup API](https://www.sqlite.org/backup.html).
+
+Both paths check the delivered draft against the original sequence and
+text, confirm the coordinator receives the final review and verify that
+every inbox is drained. The controller compares the SHA-256 hashes of
+`live/proposal.md` and `restored/proposal.md`. The output also contains
+`pilot-report.json` with timings, review counts and result hashes. The recovery phase
+time starts when the test launches the workers, includes any remaining
+lease wait and ends when the verified proposal is written.
+The backup represents the point where the first draft was waiting for
+review. Work committed after that snapshot requires a newer backup to
+recover.
+
+In the Windows pilot, each path completed 75 internal checks, resolved
+all seven deliberately injected errors and preserved six evidence
+warnings. The two drafts had the same SHA-256 hash. The documents are
+fictional planning drafts. For an actual application, use the relevant
+call and verify partner commitments, needs evidence and budget inputs
+with the people responsible for the proposal.
