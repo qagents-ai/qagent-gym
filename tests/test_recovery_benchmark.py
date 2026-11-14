@@ -261,3 +261,41 @@ def test_native_recovery_matrix(tmp_path, framework, fault, deduplicate):
         assert observation["kill"]["returncode"] != 0
         assert not observation["first_result_exists_at_kill"]
         assert observation["pre_recovery"]["tool_result_count"] == int(fault == "after_checkpoint")
+
+
+@pytest.mark.parametrize(
+    "field, outcome",
+    [
+        ("missing_intent", "inconclusive"),
+        ("changed_prefix", "failed"),
+        ("changed_digest", "failed"),
+        ("changed_key", "failed"),
+        ("missing_requests", "inconclusive"),
+        ("changed_commit", "failed"),
+    ],
+)
+def test_effects_pass_requires_matching_durable_and_remote_evidence(field, outcome):
+    case = observed_case()
+    first = {"request_digest": "original", "idempotency_key": "q1_stable", "attempt": 1}
+    second = {**first, "attempt": 2}
+    case["framework"] = "qagents-effects"
+    case["pre_recovery"]["effect_intents"] = [first.copy()]
+    case["result"]["effect_intents"] = [first, second]
+    case["result"]["effect_commits"] = [{"receipt": case["result"]["receipt"].copy()}]
+    requests = [{"idempotency_key": first["idempotency_key"]} for _ in range(2)]
+    case["ledger"]["requests"] = requests
+    assert classify(case) == ("passed", [])
+
+    if field == "missing_intent":
+        case["pre_recovery"]["effect_intents"] = []
+    elif field == "changed_prefix":
+        case["pre_recovery"]["effect_intents"][0]["attempt"] = 9
+    elif field == "changed_digest":
+        second["request_digest"] = "changed"
+    elif field == "changed_key":
+        requests[1]["idempotency_key"] = "q1_different"
+    elif field == "missing_requests":
+        requests.pop()
+    elif field == "changed_commit":
+        case["result"]["effect_commits"][0]["receipt"]["credit_id"] = 2
+    assert classify(case)[0] == outcome

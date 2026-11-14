@@ -113,6 +113,110 @@ async def qagents_work(config: dict) -> dict:
         await store.aclose()
 
 
+async def effects_work(config: dict) -> dict:
+    from pydantic import BaseModel
+    from qagents import Agent, RunContext, Session, SQLiteStore, ToolCallPart, tool
+    from qagents.effects import Attempt, Dedupe, EffectContext, Key, effect
+    from qagents.models.testing import FunctionModel
+
+    directory = Path(config["directory"])
+    phase, key = config["phase"], config["key"]
+
+    class CreditRequest(BaseModel):
+        key: str
+
+    class CreditReceipt(BaseModel):
+        key: str
+        amount: int
+        credit_id: int
+
+    @effect(
+        "benchmark.credit",
+        key=Key("credit", "key"),
+        dedupe=Dedupe(3600, contract="local SQLite fixture", concurrent="waits"),
+        timeout_s=2,
+    )
+    async def credit(ctx: EffectContext, attempt: Attempt[CreditRequest]) -> CreditReceipt:
+        event(directory, phase, "effect_entered", key=attempt.request.key)
+        await async_barrier(config, "before_effect")
+        receipt = await asyncio.to_thread(
+            request_effect,
+            config["service_url"],
+            attempt.request.key,
+            phase,
+            config["timeout"],
+            idempotency_key=attempt.idempotency_key,
+        )
+        event(directory, phase, "effect_returned", receipt=receipt)
+        return CreditReceipt.model_validate(receipt)
+
+    async def credit_operation(ctx, key: str) -> str:
+        """Credit 10 TEST units through the destination's idempotency contract."""
+        return (await ctx.perform(credit, CreditRequest(key=key))).model_dump_json()
+
+    credit_operation.__annotations__["ctx"] = RunContext
+    credit_tool = tool(effects=[credit])(credit_operation)
+
+    async def policy(request):
+        results = [part for message in request.messages for part in message.tool_results]
+        if not results:
+            return ToolCallPart(id="credit-call", name="credit_operation", arguments={"key": key})
+        if len(results) != 1 or results[0].is_error:
+            raise ValueError("unexpected tool outcome")
+        receipt = json.loads(results[0].content)
+        event(directory, phase, "finalize_entered", receipt=receipt)
+        await async_barrier(config, "after_checkpoint")
+        return json.dumps(receipt, sort_keys=True)
+
+    # The lease needs to cover the send timeout and both safety margins.
+    ttl = config["lease_ttl"]
+    agent = Agent(FunctionModel(policy), tools=[credit_tool], lease_ttl_s=ttl)
+    marker(directory / f"{phase}.ready.json", "ready", framework="qagents-effects")
+    started = time.perf_counter_ns()
+    lease_wait_ms = 0.0
+    async with SQLiteStore(directory / "framework.sqlite3") as store:
+        session = Session(store, id=key)
+        if phase == "first":
+            result = await agent.run(key, session=session)
+        else:
+            entries = await session.entries()
+            results = [entry.data["result"] for entry in entries if entry.kind == "tool_result"]
+            status = await store.status(key)
+            write_json(
+                directory / "pre_recovery.json",
+                {
+                    "tool_result_count": len(results),
+                    "tool_results": results,
+                    "status": status.status,
+                    "journal_kinds": [entry.kind for entry in entries],
+                    "lease_expires_at": status.lease_expires_at,
+                    "effect_intents": [e.data for e in entries if e.kind == "effect_intent"],
+                },
+            )
+            wait_started = time.perf_counter_ns()
+            deadline = time.monotonic() + config["timeout"]
+            while status.lease_owner and (
+                await store.now() < status.lease_expires_at + store.takeover_grace_s
+            ):
+                if time.monotonic() >= deadline:
+                    raise TimeoutError("Effects lease did not expire")
+                await asyncio.sleep(0.01)
+                status = await store.status(key)
+            lease_wait_ms = (time.perf_counter_ns() - wait_started) / 1e6
+            result = await agent.resume(session)
+        if result.status != "completed":
+            raise ValueError(f"run was not completed: {result.status}")
+        entries = await session.entries()
+        return {
+            "receipt": json.loads(result.output),
+            "framework_status": result.status,
+            "work_ms": (time.perf_counter_ns() - started) / 1e6,
+            "lease_acquisition_wait_ms": lease_wait_ms,
+            "effect_intents": [e.data for e in entries if e.kind == "effect_intent"],
+            "effect_commits": [e.data for e in entries if e.kind == "effect_committed"],
+        }
+
+
 class CreditState(TypedDict, total=False):
     key: str
     receipt: dict
@@ -197,11 +301,12 @@ def main() -> None:
     parser.add_argument("config", type=Path)
     args = parser.parse_args()
     config = read_json(args.config)
-    result = (
-        asyncio.run(qagents_work(config))
-        if config["framework"] == "qagents"
-        else langgraph_work(config)
-    )
+    if config["framework"] == "qagents-effects":
+        result = asyncio.run(effects_work(config))
+    elif config["framework"] == "qagents":
+        result = asyncio.run(qagents_work(config))
+    else:
+        result = langgraph_work(config)
     marker(Path(config["directory"]) / f"{config['phase']}.result.json", "completed", **result)
 
 

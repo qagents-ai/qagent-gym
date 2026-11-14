@@ -26,10 +26,12 @@ class Ledger:
             connection.executescript(
                 "CREATE TABLE credits (id INTEGER PRIMARY KEY, key TEXT NOT NULL, "
                 "amount INTEGER NOT NULL);"
-                "CREATE TABLE intents (key TEXT PRIMARY KEY, amount INTEGER NOT NULL, "
+                "CREATE TABLE intents (key TEXT PRIMARY KEY, operation_key TEXT NOT NULL, "
+                "amount INTEGER NOT NULL, "
                 "credit_id INTEGER NOT NULL REFERENCES credits(id));"
                 "CREATE TABLE requests (id INTEGER PRIMARY KEY, key TEXT NOT NULL, "
-                "amount INTEGER NOT NULL, phase TEXT NOT NULL, credit_id INTEGER NOT NULL);"
+                "amount INTEGER NOT NULL, phase TEXT NOT NULL, credit_id INTEGER NOT NULL, "
+                "idempotency_key TEXT NOT NULL);"
             )
 
     @contextmanager
@@ -44,20 +46,25 @@ class Ledger:
         finally:
             connection.close()
 
-    def credit(self, key: str, amount: int, phase: str) -> dict:
+    def credit(
+        self, key: str, amount: int, phase: str, *, idempotency_key: str | None = None
+    ) -> dict:
         if not isinstance(key, str) or not key or len(key) > 200:
             raise ValueError("invalid operation key")
         if type(amount) is not int or amount <= 0 or phase not in ("first", "recovery"):
             raise ValueError("invalid credit request")
+        token = key if idempotency_key is None else idempotency_key
+        if not isinstance(token, str) or not token or len(token) > 200:
+            raise ValueError("invalid idempotency key")
         with self.connect() as connection:
             connection.execute("BEGIN IMMEDIATE")
             existing = connection.execute(
-                "SELECT amount, credit_id FROM intents WHERE key=?", (key,)
+                "SELECT operation_key, amount, credit_id FROM intents WHERE key=?", (token,)
             ).fetchone()
-            if existing and existing[0] != amount:
-                raise PayloadConflict("same key with different amount")
+            if existing and existing[:2] != (key, amount):
+                raise PayloadConflict("same key with different request")
             if existing and self.deduplicate:
-                credit_id = existing[1]
+                credit_id = existing[2]
             else:
                 cursor = connection.execute(
                     "INSERT INTO credits(key, amount) VALUES (?, ?)", (key, amount)
@@ -65,11 +72,12 @@ class Ledger:
                 credit_id = cursor.lastrowid
                 if not existing:
                     connection.execute(
-                        "INSERT INTO intents VALUES (?, ?, ?)", (key, amount, credit_id)
+                        "INSERT INTO intents VALUES (?, ?, ?, ?)", (token, key, amount, credit_id)
                     )
             connection.execute(
-                "INSERT INTO requests(key, amount, phase, credit_id) VALUES (?, ?, ?, ?)",
-                (key, amount, phase, credit_id),
+                "INSERT INTO requests(key, amount, phase, credit_id, idempotency_key) "
+                "VALUES (?, ?, ?, ?, ?)",
+                (key, amount, phase, credit_id, token),
             )
         return {"key": key, "amount": amount, "credit_id": credit_id}
 
@@ -79,12 +87,19 @@ class Ledger:
                 "SELECT id, key, amount FROM credits ORDER BY id"
             ).fetchall()
             requests = connection.execute(
-                "SELECT id, key, amount, phase, credit_id FROM requests ORDER BY id"
+                "SELECT id, key, amount, phase, credit_id, idempotency_key "
+                "FROM requests ORDER BY id"
             ).fetchall()
         return {
             "credits": [dict(zip(("id", "key", "amount"), row, strict=True)) for row in credits],
             "requests": [
-                dict(zip(("id", "key", "amount", "phase", "credit_id"), row, strict=True))
+                dict(
+                    zip(
+                        ("id", "key", "amount", "phase", "credit_id", "idempotency_key"),
+                        row,
+                        strict=True,
+                    )
+                )
                 for row in requests
             ],
             "credit_count": len(credits),
@@ -123,7 +138,12 @@ class EffectService:
                     body = json.loads(self.rfile.read(length))
                     if set(body) != {"key", "amount", "phase"} or body["amount"] != AMOUNT:
                         raise ValueError("invalid workload")
-                    receipt = service.ledger.credit(body["key"], body["amount"], body["phase"])
+                    receipt = service.ledger.credit(
+                        body["key"],
+                        body["amount"],
+                        body["phase"],
+                        idempotency_key=self.headers.get("Idempotency-Key"),
+                    )
                 except PayloadConflict:
                     self.send_error(409, "conflicting operation")
                     return

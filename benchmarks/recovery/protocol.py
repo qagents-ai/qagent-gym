@@ -11,7 +11,7 @@ from typing import Any
 from urllib.request import ProxyHandler, Request, build_opener
 
 FAULTS = ("none", "before_effect", "after_commit_before_ack", "after_checkpoint")
-FRAMEWORKS = ("qagents", "langgraph")
+FRAMEWORKS = ("qagents", "langgraph", "qagents-effects")
 AMOUNT = 10
 
 
@@ -44,9 +44,14 @@ def event(directory: Path, phase: str, name: str, **fields: Any) -> None:
         os.fsync(stream.fileno())
 
 
-def request_effect(url: str, key: str, phase: str, timeout: float) -> dict:
+def request_effect(
+    url: str, key: str, phase: str, timeout: float, *, idempotency_key: str | None = None
+) -> dict:
     body = json.dumps({"key": key, "amount": AMOUNT, "phase": phase}).encode()
-    request = Request(url + "/credit", data=body, headers={"Content-Type": "application/json"})
+    headers = {"Content-Type": "application/json"}
+    if idempotency_key is not None:
+        headers["Idempotency-Key"] = idempotency_key
+    request = Request(url + "/credit", data=body, headers=headers)
     # Loopback traffic must not accidentally use a caller's proxy configuration.
     with build_opener(ProxyHandler({})).open(request, timeout=timeout) as response:
         receipt = json.loads(response.read(8192))

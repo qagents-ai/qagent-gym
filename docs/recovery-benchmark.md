@@ -2,7 +2,7 @@
 
 Research and execution date: **2026-11-13**. This experiment uses actual child-process termination, a deterministic credit workflow and an independent loopback effect service. It measures worker recovery on one machine. It does not measure model quality or simulate a host power failure.
 
-The current baseline uses **QAgents 0.2.0, source 96096cb**, copied before Effects development. An Effects profile and its results will be labelled separately when that API is available. Baseline results must not be presented as completed Effects 0.3 validation.
+The baseline uses **QAgents 0.2.0, source 96096cb**, copied before Effects development. The November 14 experiment below exercises a separate Effects development snapshot.
 
 ## The common workload
 
@@ -99,4 +99,43 @@ QAgents' median measured lease-acquisition loop was approximately **1.5–1.8 ms
 
 Machine: Windows 11 build 26200, AMD64 Family 25 Model 80, 16 logical CPUs, Python **3.13.18**, SQLite **3.53.1**. Full environment details and all individual timings are linked above. Compact artifacts are retained under `benchmarks/recovery/results/baseline-96096cb/`; complete per-trial evidence is retained locally under `.work/recovery-baseline-96096cb-verified/`. The superseded launcher run remains under `.work/recovery-baseline-96096cb-results/` with `STOPPED.json` and is excluded from these measurements.
 
-The baseline can establish that these two configured implementations recover this workload at these fault boundaries. It cannot establish general reliability, external-provider guarantees or a performance winner. Effects validation remains a separate required profile.
+## Effects development snapshot, November 14
+
+The Effects profile uses a typed `@effect`, `ctx.perform()`, a fenced SQLite journal and
+`Agent.resume()` in a fresh process. The loopback destination receives the attempt's actual
+idempotency key and records it alongside the business key. The controller checks the
+persisted intent before recovery and verifies that the destination saw the same attempt
+key after recovery. LangGraph uses the same deterministic credit workload and its native
+synchronous SQLite checkpoint.
+
+**40 positive trials passed and all 10 negative controls detected duplicate credits.**
+The controller verified 40 worker terminations. The QAgents source hash remained stable.
+The Effects profile uses a 6.1-second lease and a 2-second send timeout.
+
+| Fault | Effects median kill → result | LangGraph median kill → result |
+| --- | ---: | ---: |
+| Before effect | 7.15 s | 1.71 s |
+| Commit before acknowledgement | 7.11 s | 1.64 s |
+| After checkpoint | 7.06 s | 1.97 s |
+
+About 6.2 seconds of the Effects measurements were spent waiting for lease expiry and takeover
+grace. The LangGraph scenario has one recovering worker and uses no corresponding lease. Each
+cell contains five observations on one Windows machine.
+
+![Effects development snapshot and LangGraph recovery timing distributions](../assets/benchmarks/recovery-effects-preview/recovery-distributions.svg)
+
+[Raw trials](../assets/benchmarks/recovery-effects-preview/raw.json) ·
+[Grouped summary](../assets/benchmarks/recovery-effects-preview/summary.json) ·
+[Source hash and environment](../assets/benchmarks/recovery-effects-preview/metadata.json) ·
+[Source integrity](../assets/benchmarks/recovery-effects-preview/source_integrity.json)
+
+```powershell
+.work/recovery-venv/Scripts/python.exe -m benchmarks.recovery.run `
+  --qagents-src C:/path/to/frozen-effects/src `
+  --output-dir .work/my-effects-recovery-results `
+  --frameworks qagents-effects langgraph --lease-ttl 6.1 --repeats 5 `
+  --include-negative-control --label 'Effects development snapshot vs LangGraph'
+```
+
+This experiment covers worker recovery at the three stated boundaries. Release validation
+also requires the crash harness coverage, provider assumptions and cross-platform tests.

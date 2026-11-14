@@ -65,5 +65,8 @@ Tests must exercise the service's key/payload conflict boundary and process prot
 including a missing-barrier case that remains inconclusive. The full benchmark runs outside
 the default fast suite and records its exact invocation and observed results.
 
-Effects 0.3 will be a separately labelled adapter/profile once its public API is available.
-Existing 0.2 results must not be represented as Effects results.
+The separate `qagents-effects` profile uses `Agent.run()` and `Agent.resume()`, an effect
+intent with a generated attempt key, and the same destination. Its positive cases require
+the durable intent and the destination request log to agree on that key. It sets a longer
+lease to cover the send timeout and safety margins. Report the selected profile and source
+hash alongside its measurements.

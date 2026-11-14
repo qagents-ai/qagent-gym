@@ -165,6 +165,42 @@ def classify(observation: dict) -> tuple[str, list[str]]:
             missing.append("withheld response was already recorded by the framework")
     if missing:
         return "inconclusive", missing
+    if observation.get("framework") == "qagents-effects":
+        intents = result.get("effect_intents")
+        commits = result.get("effect_commits")
+        requests = ledger.get("requests")
+        if (
+            not isinstance(intents, list)
+            or not isinstance(commits, list)
+            or not isinstance(requests, list)
+            or not intents
+            or not commits
+            or not all(isinstance(item, dict) for item in [*intents, *commits, *requests])
+        ):
+            return "inconclusive", ["missing durable Effects or service request evidence"]
+        if fault != "none":
+            persisted = previous.get("effect_intents")
+            if not isinstance(persisted, list) or len(persisted) != 1:
+                return "inconclusive", ["expected one durable effect intent before the kill"]
+            if persisted[0] != intents[0]:
+                return "failed", ["the recovered journal changed the original effect intent"]
+        expected_intents = 2 if fault in ("before_effect", "after_commit_before_ack") else 1
+        if len(intents) != expected_intents or len(commits) != 1:
+            return "failed", ["unexpected durable effect intent or commit count"]
+        if len(requests) != ledger["request_count"] or not requests:
+            return "inconclusive", ["service request records do not establish the request count"]
+        digest = intents[0].get("request_digest")
+        if not isinstance(digest, str) or not digest:
+            return "inconclusive", ["missing original request digest"]
+        if any(intent.get("request_digest") != digest for intent in intents):
+            return "failed", ["the recovery tried a different effect request"]
+        if commits[0].get("receipt") != receipt:
+            return "failed", ["the durable commit differs from the reported receipt"]
+        keys = [item.get("idempotency_key") for item in [*intents, *requests]]
+        if not all(isinstance(token, str) and token.startswith("q1_") for token in keys):
+            return "failed", ["the service did not receive the Effects attempt key"]
+        if len(set(keys)) != 1:
+            return "failed", ["the service and durable attempts disagree on the retry key"]
     expected_requests = 2 if fault == "after_commit_before_ack" else 1
     negative = fault == "after_commit_before_ack" and not observation["deduplicate"]
     expected_credits = 2 if negative else 1
@@ -381,7 +417,9 @@ def main() -> int:
     parser.add_argument("--qagents-src", type=Path, required=True)
     parser.add_argument("--label", default="QAgents baseline; inspect source hash")
     parser.add_argument("--repeats", type=int, default=5)
-    parser.add_argument("--frameworks", nargs="+", choices=FRAMEWORKS, default=list(FRAMEWORKS))
+    parser.add_argument(
+        "--frameworks", nargs="+", choices=FRAMEWORKS, default=["qagents", "langgraph"]
+    )
     parser.add_argument("--faults", nargs="+", choices=FAULTS, default=list(FAULTS))
     parser.add_argument("--timeout", type=float, default=25)
     parser.add_argument("--lease-ttl", type=float, default=0.75)
@@ -392,6 +430,8 @@ def main() -> int:
         parser.error("--qagents-src must contain qagents/__init__.py")
     if not 1 <= args.repeats <= 100 or not 0 < args.lease_ttl < args.timeout <= 120:
         parser.error("require 1..100 repeats and 0 < lease-ttl < timeout <= 120")
+    if "qagents-effects" in args.frameworks and args.lease_ttl * 0.999 < 6:
+        parser.error("the Effects profile needs a lease TTL of at least 6.01 seconds")
     output = args.output_dir.resolve()
     output.mkdir(parents=True, exist_ok=False)
     config = {

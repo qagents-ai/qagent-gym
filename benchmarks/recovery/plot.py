@@ -28,7 +28,13 @@ def plot(results: Path) -> tuple[Path, Path]:
     import matplotlib.pyplot as plt
     from matplotlib.patches import Patch
 
-    colors = {"qagents": "#137C86", "langgraph": "#6652A3"}
+    colors = {"qagents": "#137C86", "qagents-effects": "#137C86", "langgraph": "#6652A3"}
+    frameworks = [name for name in colors if any(row["framework"] == name for row in records)]
+    offsets = (
+        [0]
+        if len(frameworks) == 1
+        else [0.34 * (index / (len(frameworks) - 1) - 0.5) for index in range(len(frameworks))]
+    )
     faults = ("before_effect", "after_commit_before_ack", "after_checkpoint")
     labels = ("Before effect", "Commit, no acknowledgement", "After checkpoint")
     figure, axes = plt.subplots(1, 2, figsize=(14, 6), constrained_layout=True)
@@ -40,7 +46,7 @@ def plot(results: Path) -> tuple[Path, Path]:
         strict=True,
     ):
         for index, fault in enumerate(faults):
-            for offset, framework in ((-0.17, "qagents"), (0.17, "langgraph")):
+            for offset, framework in zip(offsets, frameworks, strict=True):
                 values = [
                     record["timings"][metric]
                     for record in records
@@ -103,7 +109,7 @@ def plot(results: Path) -> tuple[Path, Path]:
         ha="left",
     )
     figure.legend(
-        handles=[Patch(facecolor=color, label=name) for name, color in colors.items()],
+        handles=[Patch(facecolor=colors[name], label=name) for name in frameworks],
         loc="outside lower center",
         ncols=2,
         frameon=False,
