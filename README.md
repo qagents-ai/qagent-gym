@@ -1,20 +1,70 @@
+<section class="gym-hero" aria-labelledby="qagent-gym" markdown="1">
+
+<div class="gym-hero__copy" markdown="1">
+
 # QAgent Gym
 
-![Quentin team robots practicing with memory, playbooks, feedback and evaluation](assets/quentin-gym-hero.png)
+Train agents on feedback. Test what they learn.
 
-Persistent context learning and frozen evaluation for **qagents**. Run an agent,
-evaluate its result, reflect on feedback, and apply incremental playbook changes.
-The next task receives the learned playbook and relevant memories.
+Run a QAgents agent on a practice task, turn useful feedback into a playbook, and check the result on held-out tasks. Start with a local demo that needs no API key.
 
-![Training updates learned context; evaluation uses a captured context without learning writes](assets/diagrams/gym-learning-flow.svg)
+<div class="gym-actions" markdown="1">
 
-The [architecture diagrams](docs/diagrams/README.md) include editable Mermaid
-sources and rendered SVGs for execution, memory and evaluation.
+[Run the offline demo](#run-the-offline-demo)
+[Explore the scenarios](#application-scenarios)
 
-This first release implements an **ACE-inspired** generator/reflector/curator loop.
-It does not depend on either package named `ace`, reproduce the ACE paper's
-benchmarks, or update model weights. The offline demo uses qagents' actual Agent
-loop with scripted models; it checks the integration without credentials or network.
+</div>
+
+</div>
+
+<div class="gym-hero__art" markdown="1">
+
+![Quentin robots practicing with memory, playbooks, and evaluation](assets/quentin-gym-hero.webp)
+
+</div>
+
+</section>
+
+<section class="gym-paths" aria-labelledby="choose-a-workflow" markdown="1">
+
+## Choose a workflow
+
+<div class="gym-paths__grid" markdown="1">
+
+<div markdown="1">
+
+### [Learn from feedback](docs/examples.md)
+
+Turn a review into a reusable rule. Run the same held-out tasks against a frozen copy of the learned context.
+
+</div>
+<div markdown="1">
+
+### [Rehearse a restart](docs/erasmus-example.md#rehearse-worker-restart-and-backup-restore)
+
+Kill a KA220 proposal worker and recover the draft from its mailbox and journals. Compare the result with a backup restore.
+
+</div>
+<div markdown="1">
+
+### [Compare recovery behavior](docs/recovery-benchmark.md)
+
+Inspect where QAgents and LangGraph resume after a crash, with independent checks for missing or duplicate writes.
+
+</div>
+
+</div>
+
+</section>
+
+## How training and evaluation work
+
+![Training updates learned context and held-out evaluation uses a frozen snapshot](assets/diagrams/gym-learning-flow.svg)
+
+Gym uses an ACE-inspired generator, reflector, and curator to improve the
+context an existing agent receives. It keeps the model weights fixed. The
+scripted demo uses the real QAgents loop and measures the tasks included in
+that demo. [Architecture diagrams](docs/diagrams/README.md)
 
 ## Run the offline demo
 
