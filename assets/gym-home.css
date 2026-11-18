@@ -10,7 +10,8 @@ body:has(.gym-hero) .md-sidebar--secondary {
 }
 
 .md-typeset .gym-hero,
-.md-typeset .gym-paths {
+.md-typeset .gym-paths,
+.md-typeset .gym-guide-lead {
   --gym-ink: #18273b;
   --gym-teal: #075a57;
   --gym-paper: #f6f2e9;
@@ -38,6 +39,59 @@ body:has(.gym-hero) .md-sidebar--secondary {
   letter-spacing: -.052em;
   font-size: clamp(1.9rem, 3.4vw, 3rem);
   line-height: 1.02;
+}
+
+.md-typeset .gym-guide-lead {
+  padding: clamp(1rem, 3vw, 1.8rem);
+  margin-block: .5rem 1.75rem;
+  border-top: .22rem solid var(--gym-teal);
+  background: var(--gym-paper);
+}
+
+.md-typeset .gym-guide-lead h1 {
+  margin: 0 0 .6rem;
+  color: var(--gym-ink);
+  font-size: clamp(1.65rem, 3.3vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.md-typeset .gym-guide-lead > p {
+  max-width: 58ch;
+  margin: 0;
+}
+
+.md-typeset .gym-guide-lead > p:has(> img) {
+  max-width: none;
+  margin-top: 1rem;
+}
+
+.md-typeset .gym-guide-lead img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1752 / 897;
+  border-radius: .35rem;
+}
+
+.md-typeset .gym-diagram {
+  display: block;
+  margin: 1rem 0 1.45rem;
+  text-align: left;
+}
+
+.md-typeset .gym-diagram img {
+  display: block;
+  width: 100%;
+  border: 1px solid #b9d0ca;
+  border-radius: .55rem;
+}
+
+.md-typeset .gym-diagram figcaption {
+  max-width: 68ch;
+  margin: .55rem 0 0;
+  font-size: .8em;
+  font-style: normal;
 }
 
 .md-typeset .gym-hero__copy > p {
@@ -95,7 +149,8 @@ body:has(.gym-hero) .md-sidebar--secondary {
 }
 
 .md-typeset .gym-hero a:focus-visible,
-.md-typeset .gym-paths a:focus-visible {
+.md-typeset .gym-paths a:focus-visible,
+.md-typeset .gym-guide-lead a:focus-visible {
   outline: 3px solid var(--gym-teal);
   outline-offset: 4px;
 }

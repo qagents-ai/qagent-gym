@@ -11,7 +11,7 @@ Run a QAgents agent on a practice task, turn useful feedback into a playbook, an
 <div class="gym-actions" markdown="1">
 
 [Run the offline demo](#run-the-offline-demo)
-[Explore the scenarios](#application-scenarios)
+[Start here](docs/start-here.md)
 
 </div>
 
@@ -65,6 +65,10 @@ Gym uses an ACE-inspired generator, reflector, and curator to improve the
 context an existing agent receives. It keeps the model weights fixed. The
 scripted demo uses the real QAgents loop and measures the tasks included in
 that demo. [Architecture diagrams](docs/diagrams/README.md)
+
+If you want to update model weights, start with the
+[reinforcement learning guide](docs/rl.md). It shows how to export a scored
+episode and which additional data an external trainer needs.
 
 ## Run the offline demo
 

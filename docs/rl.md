@@ -1,9 +1,75 @@
-# Reinforcement-learning integration boundary
+<section class="gym-guide-lead" aria-labelledby="reinforcement-learning" markdown="1">
 
-Gym currently runs and evaluates agents, updates context/playbooks, and exports
-episode records. These operations do not update model weights. An exported JSONL
-file is training data, not a completed reinforcement-learning optimizer run.
-No model training, weight download, or live training service has been exercised.
+# Reinforcement learning
+
+Run and score an agent in Gym. Use the results to improve its playbook, build a
+benchmark, or prepare a reward for an external trainer.
+
+<div class="gym-actions" markdown="1">
+
+[Run the offline example](#run-the-offline-example)
+[See what a trainer needs](#what-a-trainer-needs)
+
+</div>
+
+![Quentin robots testing a small robot on an obstacle course](../assets/quentin-rl-lab.webp)
+
+</section>
+
+## Choose what to improve
+
+| Goal | What changes | Where to start |
+| --- | --- | --- |
+| Teach the agent a reusable procedure | A playbook entry or saved memory | [Context learning](start-here.md#learn-from-feedback) |
+| Measure whether a change helps | A set of scores from the same held-out tasks | [Frozen evaluation](start-here.md#measure-a-change) |
+| Optimize prompt or playbook text | Candidate text selected by a benchmark | [GEPA reflection exports](optimization.md#gepa-reflection-data) |
+| Update model weights using rewards | A policy trained by an external optimizer | [Trainer requirements](#what-a-trainer-needs) |
+
+## How the data flows
+
+<figure class="gym-diagram" markdown="1">
+
+[![Gym records episodes and exports datasets. A separate Agent Lightning route joins model traces and rewards for an external trainer.](../assets/diagrams/rl-rollout.svg)](../assets/diagrams/rl-rollout.svg)
+
+<figcaption>Solid arrows show Gym’s available record and export path. Dashed arrows show the proposed training setup. Gym can format and send the reward through an injected transport. The Gateway, rollout collection and optimizer require a separate integration.</figcaption>
+
+</figure>
+
+## Run the offline example
+
+From a checkout with [Gym installed](../README.md#run-the-offline-demo), run the
+example in a fresh database. It uses a scripted agent and a local evaluator.
+
+```console
+python -m examples.evaluation_exports --db .gym/rl-guide/episodes.sqlite3 --namespace evaluation-exports
+```
+
+The result includes two scored practice episodes for reflection and four
+held-out tasks for evaluation. Open `episodes.gepa.json` to see the practice
+feedback, and `episodes.inspect.jsonl` to see the evaluation inputs and answer
+keys. The keys belong to the evaluator. Keep them outside the agent's prompt.
+
+Preview a reward event from one of those practice episodes:
+
+```python
+import json
+
+from qagent_gym.integrations import reward_payload
+from qagent_gym.storage import SQLiteStore
+
+with SQLiteStore(".gym/rl-guide/episodes.sqlite3") as store:
+    practice = next(
+        episode
+        for episode in store.episodes("evaluation-exports")
+        if episode.task.split == "train" and episode.generation.status == "completed"
+    )
+
+print(json.dumps(reward_payload(practice.reward), indent=2))
+```
+
+The first practice attempt receives a reward of `0.0`. Gym stores the feedback
+and updates the playbook. The preview prints the event locally. It makes no
+training service calls.
 
 ## Agent Lightning v1 reward bridge
 
@@ -43,13 +109,17 @@ calls only where token-prefix continuity holds and masks tool observations from
 the policy loss. Text-only Gym exports cannot reconstruct missing sampled token
 IDs or log probabilities. See [trainer configuration](https://microsoft.github.io/agent-lightning/stable/20-trainer-configuration/).
 
-The current [installation guide](https://microsoft.github.io/agent-lightning/stable/00-installation/)
-tests `verl==0.8.0` with `vllm==0.20.2` and CUDA 13.0, or `verl==0.7.1` with
-`vllm==0.12.0` and CUDA 12.9, using `flash-attn==2.8.3`. The
-[local controller requires Linux/WSL rather than native Windows](https://microsoft.github.io/agent-lightning/stable/30-controller-configuration/).
-The quickstart uses an A100 and defaults to W&B uploads. Keep this stack separate
-from Gym's base environment; pin a tested source revision before using it, since
-the current `/stable/` documentation also displays a development warning.
+Use the upstream [installation guide](https://microsoft.github.io/agent-lightning/stable/00-installation/)
+to select a compatible verl, vLLM and CUDA stack. The
+[local Controller](https://microsoft.github.io/agent-lightning/stable/30-controller-configuration/)
+requires Linux or WSL. Keep that environment separate from Gym and pin the
+upstream release used for a run.
+
+Microsoft also publishes an
+[Agent Lightning Skill](https://github.com/microsoft/agent-lightning/releases/tag/v1.0.1)
+for improving an agent against a benchmark. It can guide prompt and tool
+experiments with the frozen evaluation workflow above. Those experiments can run
+independently of the trainer.
 
 ## Alternative training backends
 
@@ -59,21 +129,30 @@ number of completions per prompt and return `prompt_ids`, `completion_ids`, and
 `logprobs`; optional `logprob_token_ids` describe sampling support. Additional
 fields reach the reward functions. Its experimental `environment_factory`
 interface instead exposes tools plus `reset()` and optional `get_reward()` while
-TRL owns generation. The [release page](https://github.com/huggingface/trl/releases)
-listed v1.17.1 on 2026-11-13; rolling documentation is not a tested compatibility
-promise. Gym does not implement either training adapter yet.
+TRL owns generation. A Gym adapter for either interface remains future work.
 
 Direct [verl AgentLoopBase](https://verl.readthedocs.io/en/latest/advance/agent_loop.html)
 requires `async run(sampling_params, **kwargs) -> AgentLoopOutput`, with prompt
 and response token IDs and a response mask distinguishing generated tokens from
 tool output. Its documentation labels this API alpha and subject to change.
-Prefer the gateway route when preserving qagents' existing agent loop matters.
+The Gateway route fits experiments that keep the existing QAgents agent loop.
 
-A real RL experiment still needs a trainable checkpoint, tokenizer, task split,
-reward, sampled-token traces, and an optimizer backend. Freeze memory/playbook
-context when comparing policies and keep evaluation tasks outside adaptation.
-The current fake-transport tests verify only reward payloads, validation, and
-error propagation; they do not establish end-to-end training compatibility.
+## What a trainer needs
+
+1. A trainable checkpoint and the tokenizer that matches it.
+2. Training, validation and test tasks with an explicit scoring rule.
+3. Rollouts with sampled token IDs and log probabilities. Tool results also need
+   a mask so the trainer can identify which tokens the model generated.
+4. A trainer that can read those records and update the checkpoint.
+
+Freeze the playbook and memory when comparing two model policies, so the measured
+change comes from the model. Keep test tasks outside both learning and model
+selection.
+
+The next Gym integration is a single live Gateway rollout with a scoped
+identifier, a terminal reward and a check that the sampled trace and reward
+belong to the same rollout. Gym's current tests cover the reward payload and
+transport contract. A live trainer and model-weight updates remain unverified.
 
 Agent Lightning uses [MIT](https://github.com/microsoft/agent-lightning/blob/main/LICENSE);
 TRL and verl use [Apache-2.0](https://github.com/huggingface/trl/blob/main/LICENSE)
