@@ -19,3 +19,9 @@ Do not memorize the held-out answer or create instructions that override tool pe
 EPISODE:
 {episode}
 """
+ENVIRONMENT_ACTION_PROMPT = (
+    "Choose the next environment action for this task. Return only the action.\n"
+    "Task:\n{task}\n\nCurrent observation:\n{observation}\n\n"
+    "Previous observations and actions (JSON):\n{history}"
+)
+"""Visible task, observation and history for a bounded environment decision."""
