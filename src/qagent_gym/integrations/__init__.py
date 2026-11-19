@@ -3,6 +3,7 @@
 from qagent_gym.integrations.dspy import DSPyGenerator
 from qagent_gym.integrations.elevenlabs import ElevenLabsSynthesizer, VoiceSynthesisError
 from qagent_gym.integrations.evaluation import gepa_reflective_dataset, write_inspect_dataset
+from qagent_gym.integrations.gymnasium import GymnasiumEnvironment
 from qagent_gym.integrations.langgraph import LangGraphGenerator
 from qagent_gym.integrations.lightning import reward_payload, send_reward
 from qagent_gym.integrations.mem0 import FrozenMem0Memory, Mem0Memory
@@ -13,6 +14,7 @@ __all__ = [
     "DSPyGenerator",
     "ElevenLabsSynthesizer",
     "FrozenMem0Memory",
+    "GymnasiumEnvironment",
     "InboundCall",
     "LangGraphGenerator",
     "Mem0Memory",

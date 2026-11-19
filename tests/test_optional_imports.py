@@ -13,7 +13,7 @@ class NoSDK(importlib.abc.MetaPathFinder):
     def find_spec(self, fullname, path=None, target=None):
         if fullname.split('.')[0] in {
             'dspy', 'elevenlabs', 'langgraph', 'langchain_core',
-            'mem0', 'opentelemetry', 'twilio',
+            'mem0', 'opentelemetry', 'twilio', 'gymnasium', 'numpy',
         }:
             raise AssertionError('optional SDK imported: ' + fullname)
 
@@ -21,12 +21,12 @@ sys.meta_path.insert(0, NoSDK())
 from qagent_gym.integrations import (
     DSPyGenerator, ElevenLabsSynthesizer, FrozenMem0Memory,
     LangGraphGenerator, Mem0Memory, TracingEvaluator, TracingGenerator,
-    TwilioVoiceWebhook,
+    TwilioVoiceWebhook, GymnasiumEnvironment,
 )
 assert all(isinstance(item, type) for item in (
     DSPyGenerator, ElevenLabsSynthesizer, FrozenMem0Memory,
     LangGraphGenerator, Mem0Memory, TracingEvaluator, TracingGenerator,
-    TwilioVoiceWebhook,
+    TwilioVoiceWebhook, GymnasiumEnvironment,
 ))
 """
     result = subprocess.run(
