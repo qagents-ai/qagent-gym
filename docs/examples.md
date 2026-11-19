@@ -18,6 +18,8 @@ Run them from the repository root after installing qagent-gym and qagents:
 | Frozen before/after | `python -m examples.before_after` | Evaluate exactly the same held-out tasks before and after training. |
 | Integration contracts | `python -m examples.integration_contracts` | Supply a Mem0 client and Lightning transport explicitly, using local fakes first. |
 | Evaluation exports | `python -m examples.evaluation_exports` | Separate Inspect test data from GEPA-shaped training reflection records. |
+| Environment learning | `python -m examples.environment_learning` | Learn a multi-step review procedure, then evaluate with frozen memory. |
+| Native environment replay | `python -m examples.environment_benchmark` | Replay seeded Gymnasium tasks through QAgents and LangGraph; install both extras. |
 
 The learning recipes create temporary SQLite databases and remove them when finished.
 To inspect the saved episodes, add `--db .gym/peer.sqlite3 --namespace writing-v1`,

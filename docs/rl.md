@@ -24,6 +24,10 @@ benchmark, or prepare a reward for an external trainer.
 
 ## Choose what to improve
 
+For actual multi-step environment interaction, start with
+[seeded environment rollouts](environment-rollouts.md). It includes native
+Gymnasium execution, observable trajectories and repeated-outcome measurement.
+
 | Goal | What changes | Where to start |
 | --- | --- | --- |
 | Teach the agent a reusable procedure | A playbook entry or saved memory | [Context learning](start-here.md#learn-from-feedback) |

@@ -24,6 +24,11 @@ the host's responsibility.
 
 ## Reinforcement-learning rollout
 
+For the implemented reset/action/step interaction and context-learning path,
+see [multi-step environment rollouts](../environment-rollouts.md).
+
+[![A fixed context feeds bounded decisions and environment steps, followed by verified learning or repeated held-out evaluation.](../../assets/diagrams/environment-rollouts.svg)](../../assets/diagrams/environment-rollouts.svg)
+
 [![Gym exports scored episodes. An external trainer needs reward events joined to sampled model traces.](../../assets/diagrams/rl-rollout.svg)](../../assets/diagrams/rl-rollout.svg)
 
 The solid path is available in Gym. The dashed paths describe a proposed

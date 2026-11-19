@@ -88,3 +88,29 @@ publication, secrets, global configuration, or qagents environment modifications
 Keep optional frameworks outside base dependencies. Initialize local git without
 committing until review. A future real RL run requires a selected trainable model,
 dataset, reward and Linux/WSL training stack; exports alone are not RL training.
+## Environment and reliability extensions — 2026-11-19
+
+The current implementation goal extends both QAgents and Gym, with reviewed
+upstream evidence, runnable examples, evaluation results, commits and private
+GitHub pushes. The initial-release repository and publication boundaries above
+are historical; this extension is authorized by the current user request.
+
+| Capability | Owner | Depends on | Verification |
+| --- | --- | --- | --- |
+| Repeated-trial pass@k / pass^k and paired case bootstrap | QAgents | Existing EvalReport | Exact combinatorial oracles, malformed trials, paired identity checks, seeded bootstrap |
+| Seeded multi-step environment rollouts | Gym | Existing Task, Context, Generation | Termination vs truncation, policy limits, timeout/cancellation cleanup, immutable JSON round trips |
+| Native Gymnasium adapter | Gym optional extra | Rollout environment protocol | Real FrozenLake and TimeLimit, valid observation/action spaces, deterministic seed replay |
+| Environment context learning | Gym | Rollout generator and environment-return evaluator | Failed practice stores a lesson; held-out tasks use frozen context; rewards come from environment transitions |
+| Reproducible evaluation and guides | Both | The features above | Fresh examples, full suites, package installs, strict guides, documentation API checks and pushed main SHAs |
+
+The base imports retain their existing dependencies. Environments and policy
+instances belong to one rollout; a runner always closes its environment. A
+terminal state is distinct from success: success is determined by the task's
+reward or verifier. Truncated or incomplete policies do not become completed
+Gym generations. Recorded actions, observations and rewards are observable data;
+exports make no claim to include model log probabilities or perform weight training.
+
+The implementation will retain per-case repetition identities, use case-level
+rather than trial-level bootstrap samples, and refuse mismatched paired reports.
+Model quality gains require a representative held-out benchmark; scripted examples
+prove interface behavior and evaluation arithmetic.

@@ -1,5 +1,9 @@
 # QAgent Gym ecosystem survey — 2026-11-13
 
+The [2026-11-19 environment and agent-library review](ecosystem-extensions.md)
+adds checked source versions, native Gymnasium/LangGraph rollouts and QAgents
+repeatability statistics. This page preserves the earlier survey's evidence.
+
 Recommendation: prioritize independent evaluation and measured context optimization,
 then optional semantic memory and a separately deployed RL trainer. Keep qagents'
 journal, permissions and retry semantics authoritative. Adding dependencies alone

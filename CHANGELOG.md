@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Add bounded environment rollouts with versioned trajectories, explicit terminal
+  and truncation flags, and environment-derived rewards.
+- Add an optional Gymnasium adapter with validated spaces and serialized native
+  calls, plus context-learning and QAgents/LangGraph replay examples.
+- Record 80 native Gymnasium rollouts, integration provenance and an upstream
+  review of 12 environment, agent and training libraries. Scripted policies verify
+  integration behavior; these results do not rank model quality.
+
 - Add six optional integration recipes: Mem0 snapshots, LangGraph, DSPy,
   ElevenLabs, signed Twilio voice webhooks and OpenTelemetry traces.
 - Validate installed SDK contracts with local transports/inference substitutes;

@@ -1,0 +1,28 @@
+...@theme/gym
+
+direction: down
+
+context: "Fixed task and context\nPlaybook and retrieved memory" {class: store}
+episode: "One episode · repeat until ended" {
+  grid-columns: 3
+  grid-gap: 48
+  style: {
+    fill: "#EAF4F0"
+    stroke: "#B5CDC4"
+    border-radius: 16
+    font-size: 20
+  }
+  policy: "Choose an action\nQAgents or LangGraph" {class: core}
+  environment: "Environment step\nObservation and reward" {class: core}
+  trajectory: "Record each step\nSeed, actions and flags" {class: step}
+  policy -> environment: {class: flow}
+  environment -> trajectory: {class: flow}
+}
+score: "Verify the outcome\nRecorded environment evidence" {class: step}
+learn: "Training\nReflect into the next context" {class: step}
+measure: "Held-out evaluation\nRepeat trials and compare cases" {class: step}
+
+context -> episode.policy: {class: flow}
+episode.trajectory -> score: {class: flow}
+score -> learn: Practice {class: flow}
+score -> measure: Frozen context {class: flow}

@@ -1,0 +1,26 @@
+{
+  "checked_at_utc": "2026-11-19T12:41:26.722131+00:00",
+  "command": "python -m examples.environment_benchmark --output-dir .work/environment-final-replay",
+  "retained_artifacts": "assets/benchmarks/environment-contracts",
+  "qagents_commit": "09413590db0845e77b4f8ecf57cb5a17041d9996",
+  "gym_base_commit": "1cfe1a8125f2ebeaceb450be99fa1d8f4172090d",
+  "source_state": "Gym feature worktree; source hashes identify actual execution inputs",
+  "source_sha256": {
+    "gym/src/qagent_gym/rollouts.py": "be6e730705b5dde68104f7b8d1c8113f19428b5de51f214688eb7b0e177767fa",
+    "gym/src/qagent_gym/qagents_adapter.py": "b5d6d816273bd74edbff6a62c27efb122e49fc05517456205a7217b8afb43dd9",
+    "gym/src/qagent_gym/records.py": "dff81e8ed521269aab5e0486dff93ce9c66a64c224c5d9fa4451dd62b7123cbd",
+    "gym/src/qagent_gym/prompts.py": "ff2992236d308866c539036cddf1c767a77903463230cb49387760ad721e03b3",
+    "gym/src/qagent_gym/integrations/gymnasium.py": "129048baa7e276deff4c10e54535be40db281e2dd3c263f0c1eb4a3b4888c680",
+    "gym/src/qagent_gym/integrations/langgraph.py": "0b1345b338fc431d966668efcc4e54db86baa185c0f537b75f77400ed51d02f1",
+    "gym/examples/environment_benchmark.py": "adb4eb0707946732e8e65113ed295006ba0f15753eff60c70108f8e8ab162961",
+    "qagents/src/qagents/agent.py": "c10d7289098ddd20632d48491bba9bdee8bde624d27c60ab64e20d74352f60ea",
+    "qagents/src/qagents/evals.py": "1a2b5a86144164ef5f7712f761a19c04e76596ca22226f452d1a9505f6d889d6",
+    "qagents/src/qagents/eval_statistics.py": "57c0a1c65249f4b7b224201a164442239b56f90b647fb790f8a9fb24d4a6df41",
+    "qagents/src/qagents/messages.py": "14c5aad59ff86e14eed8f6a42cc5f50ab152dd3f8f7c738c990e8b991dc9be11",
+    "qagents/src/qagents/results.py": "122cd4f29c615be71209f91a91bf969b6d4d2bb2ea1c7509e91a48113574607f",
+    "qagents/src/qagents/models/testing.py": "f8c02ee12ad64a3d6106cb80be44ae1c919139ad2da72c0d89dc921bec4e04c8"
+  },
+  "summary_sha256": "bdd782dc80483042522c07b48086a2ede71eca50899c65b832fd9f3d0a25dc58",
+  "rollout_count": 80,
+  "usage": "No model provider was contacted. Policies are scripted; token/cost usage was not collected."
+}

@@ -77,6 +77,7 @@ experiment and choose a fresh export path. The scores describe this scripted dem
 | --- | --- |
 | Teach a reusable rule from feedback | [Offline learning and peer review](docs/examples.md) |
 | Run your model with tools and approvals | [Configured agents](docs/real-agents.md) |
+| Run multi-step environments and measure repeated outcomes | [Environment rollouts and Gymnasium](docs/environment-rollouts.md) |
 | Retain memories for a project | [Scoped memory and Mem0](docs/memory.md) |
 | Rehearse worker restart and backup restore | [KA220 mailbox pilot](docs/erasmus-example.md#rehearse-worker-restart-and-backup-restore) |
 | Compare recovery with LangGraph | [Process-recovery benchmark](docs/recovery-benchmark.md) |
@@ -149,6 +150,13 @@ The banking example uses fictional TEST units. Each guide records its test setup
 and the service integrations exercised.
 
 ## More runnable examples
+
+The [environment learning example](https://github.com/mpvasilis/qagent-gym/blob/main/examples/environment_learning.py) turns a
+failed review workflow into a reusable procedure. The
+[native replay benchmark](docs/environment-rollouts.md#native-replay-benchmark)
+runs the same seeded Gymnasium tasks through QAgents and LangGraph, with
+QAgents reliability reports. See the [current ecosystem review](docs/ecosystem-extensions.md)
+for checked libraries, versions and integration decisions.
 
 Run these from the repository checkout after installation.
 

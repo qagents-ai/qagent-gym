@@ -1,0 +1,142 @@
+{
+  "checked_at_utc": "2026-11-19T11:21:42.376204+00:00",
+  "method": "Official GitHub repository, default-branch commit, README and release API; read-only",
+  "repositories": [
+    {
+      "repository": "Farama-Foundation/Gymnasium",
+      "url": "https://github.com/Farama-Foundation/Gymnasium",
+      "default_branch": "main",
+      "commit_sha": "68c3f95def1b9d91922db5363a28dc1d4a83a960",
+      "readme_sha": "bd408058e8bf3ea72c102be72d3e8ff40ee65c9a",
+      "readme_path": "README.md",
+      "license": "MIT",
+      "latest_release": "v1.4.0",
+      "release_published_at": "2026-10-05T11:01:32Z",
+      "archived": false
+    },
+    {
+      "repository": "WooooDyy/AgentGym",
+      "url": "https://github.com/WooooDyy/AgentGym",
+      "default_branch": "main",
+      "commit_sha": "3ef9235d23e68e7c2920c5422ad957dc8ced5c6c",
+      "readme_sha": "987578784ba4ff017ce4bab5fcc5173708779a3d",
+      "readme_path": "README.md",
+      "license": "MIT",
+      "latest_release": null,
+      "release_published_at": null,
+      "archived": false
+    },
+    {
+      "repository": "R2E-Gym/R2E-Gym",
+      "url": "https://github.com/R2E-Gym/R2E-Gym",
+      "default_branch": "main",
+      "commit_sha": "0d94c4eb9431cd195c55a7ea3abd54006c9a1735",
+      "readme_sha": "e5e24aa0f06d031348314d2c8d2e966cf61262e2",
+      "readme_path": "README.md",
+      "license": "Apache-2.0",
+      "latest_release": null,
+      "release_published_at": null,
+      "archived": false
+    },
+    {
+      "repository": "harbor-framework/harbor",
+      "url": "https://github.com/harbor-framework/harbor",
+      "default_branch": "main",
+      "commit_sha": "a215bfa03ccc026d22a0f11d5d6c51a8a46f0510",
+      "readme_sha": "320dd4ed967c7583936783b19bed54b44f1330e9",
+      "readme_path": "README.md",
+      "license": "Apache-2.0",
+      "latest_release": "v0.26.0",
+      "release_published_at": "2026-11-13T23:49:24Z",
+      "archived": false
+    },
+    {
+      "repository": "sierra-research/tau2-bench",
+      "url": "https://github.com/sierra-research/tau2-bench",
+      "default_branch": "main",
+      "commit_sha": "c06b07dd7c4d4ec61ba6ff9bcdf0b15dd7ef36d4",
+      "readme_sha": "9c0f4f74fec6fdca94f1f48e12ab72e538b80a7d",
+      "readme_path": "README.md",
+      "license": "MIT",
+      "latest_release": "v2.0.0",
+      "release_published_at": "2026-10-20T00:28:21Z",
+      "archived": false
+    },
+    {
+      "repository": "microsoft/agent-lightning",
+      "url": "https://github.com/microsoft/agent-lightning",
+      "default_branch": "main",
+      "commit_sha": "2070bad5113e52f1aa2e5bdba822d4b24b197c05",
+      "readme_sha": "4af32c7768587ffbf0874962e0aa8b4755249677",
+      "readme_path": "README.md",
+      "license": "MIT",
+      "latest_release": "v1.0.3",
+      "release_published_at": "2026-11-03T08:47:17Z",
+      "archived": false
+    },
+    {
+      "repository": "langchain-ai/langgraph",
+      "url": "https://github.com/langchain-ai/langgraph",
+      "default_branch": "main",
+      "commit_sha": "7830b91a24e657a8167e2dbf40c3fa5a77ef5d93",
+      "readme_sha": "97c31e9cb4d8fe56be8d768ce3eb5e22400e897e",
+      "readme_path": "README.md",
+      "license": "MIT",
+      "latest_release": "1.2.23",
+      "release_published_at": "2026-11-19T05:33:06Z",
+      "archived": false
+    },
+    {
+      "repository": "microsoft/agent-framework",
+      "error": "gh: Not Found (HTTP 404)"
+    },
+    {
+      "repository": "openai/openai-agents-python",
+      "url": "https://github.com/openai/openai-agents-python",
+      "default_branch": "main",
+      "commit_sha": "91fb508a8931016efa793b033147d08cd20308cf",
+      "readme_sha": "40f490c110cd584f7034bd221c6da37379fc41ff",
+      "readme_path": "README.md",
+      "license": "MIT",
+      "latest_release": "v0.25.0",
+      "release_published_at": "2026-11-18T00:22:25Z",
+      "archived": false
+    },
+    {
+      "repository": "pydantic/pydantic-ai",
+      "url": "https://github.com/pydantic/pydantic-ai",
+      "default_branch": "main",
+      "commit_sha": "e272a43519b70d29422540836cd711ab802f4e69",
+      "readme_sha": "3774a1843c1b5256cea465c3c361390d668fdf6b",
+      "readme_path": "README.md",
+      "license": "MIT",
+      "latest_release": "v2.71.0",
+      "release_published_at": "2026-11-19T02:13:05Z",
+      "archived": false
+    },
+    {
+      "repository": "gepa-ai/gepa",
+      "url": "https://github.com/gepa-ai/gepa",
+      "default_branch": "main",
+      "commit_sha": "ce5b0d6e3d6af6c6dbec6de2c54536bbb961d309",
+      "readme_sha": "554b6d58a45b727feaa5d2c81b7077ee8ca73479",
+      "readme_path": "README.md",
+      "license": "MIT",
+      "latest_release": "v0.1.4",
+      "release_published_at": "2026-07-15T14:50:58Z",
+      "archived": false
+    },
+    {
+      "repository": "OpenPipe/ART",
+      "url": "https://github.com/OpenPipe/ART",
+      "default_branch": "main",
+      "commit_sha": "55b423c3004afeec3362fd35717b47356dfdd9fa",
+      "readme_sha": "399779814f6b9acd03d55db182bc036b24606a2d",
+      "readme_path": "README.md",
+      "license": "Apache-2.0",
+      "latest_release": "v0.5.24",
+      "release_published_at": "2026-11-04T22:54:31Z",
+      "archived": false
+    }
+  ]
+}
