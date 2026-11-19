@@ -62,6 +62,9 @@ in the [QAgents reliability guide](https://github.com/mpvasilis/qagents/blob/mai
 See [the rollout guide](environment-rollouts.md) for commands, examples and the
 recorded evaluation. Optional frameworks remain outside the base import path.
 
+The [verification record](evaluation-2026-11-19.md) lists full suites, installed
+package checks, recovery tests and the hosted CI limitation.
+
 ## Further integration choices
 
 For coding tasks, a container-backed Harbor or R2E environment is the next useful
