@@ -12,7 +12,13 @@ benchmark, or prepare a reward for an external trainer.
 
 </div>
 
-![Quentin robots testing a small robot on an obstacle course](../assets/quentin-rl-lab.webp)
+<div class="gym-cinema">
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="../assets/quentin-gym-future.webp">
+  <source type="image/webp" srcset="../assets/quentin-gym-future-animated.webp">
+  <img src="../assets/quentin-gym-future.gif" alt="Q-branded robots practicing at memory, training and evaluation stations, with an animated Q display" width="960" height="600">
+</picture>
+</div>
 
 </section>
 

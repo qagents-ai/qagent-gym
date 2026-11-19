@@ -139,6 +139,24 @@ def build_guides(repo_root: Path, output: Path, *, site_url: str | None = None) 
             return "](" + match[1] + "index.md"
 
         text = re.sub(r"\]\(((?:\.\./)*)README\.md(?=[)#])", home_link, text)
+        # Raw <picture> URLs bypass MkDocs' Markdown image link rewriter.
+        # Directory pages add one URL segment; index.md already denotes a directory.
+        if config.get("use_directory_urls", True) and markdown.stem != "index":
+
+            def picture_url(match):
+                url = match[2]
+                if urlsplit(url).scheme or url.startswith(("/", "#")):
+                    return match[0]
+                return match[1] + "../" + url + match[3]
+
+            text = re.sub(
+                r"<picture\b[^>]*>.*?</picture>",
+                lambda picture: re.sub(
+                    r'(\b(?:src|srcset)=")([^"\s,]+)(")', picture_url, picture[0]
+                ),
+                text,
+                flags=re.DOTALL,
+            )
         markdown.write_text(text, encoding="utf-8")
     pages = sorted(content.rglob("*.md"))
     groups = {"Guides": [], "Project reference": [], "Artwork": []}

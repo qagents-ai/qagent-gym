@@ -17,6 +17,11 @@ def repository(tmp_path):
     repo.mkdir()
     (repo / "docs" / "nested").mkdir(parents=True)
     (repo / "assets").mkdir()
+    (repo / "assets" / "brand").mkdir()
+    for name in ("qagents-icon-dark.svg", "qagents-icon-32.png"):
+        (repo / "assets" / "brand" / name).write_bytes(
+            (Path(__file__).resolve().parents[1] / "assets" / "brand" / name).read_bytes()
+        )
     (repo / "README.md").write_text(
         "# Sample Gym\n\n[Guide](docs/first.md) [Spec](SPEC.md)\n\n![Art](assets/art.svg)\n"
     )
@@ -72,6 +77,37 @@ def test_existing_output_is_preserved_without_invoking_builder(repository, tmp_p
         builder.build_guides(repository, output)
     assert sentinel.read_bytes() == b"previous private site"
     assert list(output.iterdir()) == [sentinel]
+
+
+@pytest.mark.parametrize("directory_urls", [True, False])
+def test_picture_sources_resolve_from_home_and_nested_guide(repository, tmp_path, directory_urls):
+    config_path = repository / "mkdocs.yml"
+    config = yaml.safe_load(config_path.read_text())
+    config["use_directory_urls"] = directory_urls
+    config_path.write_text(yaml.safe_dump(config))
+    picture = (
+        '<picture><source media="(prefers-reduced-motion: reduce)" srcset="{asset}">'
+        '<source srcset="https://example.org/remote.webp">'
+        '<img src="{asset}" alt="Robot gym"></picture>\n'
+    )
+    with (repository / "README.md").open("a") as handle:
+        handle.write(picture.format(asset="assets/art.svg"))
+    guide = repository / "docs" / "nested" / "new.md"
+    original = "# Nested guide\n\n" + picture.format(asset="../../assets/art.svg")
+    guide.write_text(original)
+    output = tmp_path / "site"
+    builder.build_guides(repository, output)
+    home = (output / "index.html").read_text(encoding="utf-8")
+    page = output / "docs" / "nested" / ("new/index.html" if directory_urls else "new.html")
+    html = page.read_text(encoding="utf-8")
+    relative = ("../" if directory_urls else "") + "../../assets/art.svg"
+    assert 'srcset="assets/art.svg"' in home
+    assert 'src="assets/art.svg"' in home
+    assert f'srcset="{relative}"' in html
+    assert f'src="{relative}"' in html
+    assert (page.parent / relative).resolve() == output / "assets" / "art.svg"
+    assert 'srcset="https://example.org/remote.webp"' in html
+    assert guide.read_text() == original
 
 
 def test_nested_readme_link_keeps_its_original_target(repository, tmp_path, monkeypatch):

@@ -4,6 +4,8 @@ strict: true
 use_directory_urls: true
 theme:
   name: material
+  logo: assets/brand/qagents-icon-dark.svg
+  favicon: assets/brand/qagents-icon-32.png
   font: false
   palette:
     primary: teal

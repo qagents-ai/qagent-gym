@@ -1,11 +1,51 @@
 # Quentin team artwork
 
+## Animated Q gym
+
+`quentin-gym-future-animated.webp` is a looping, locally rendered 3D illustration created
+on 2026-11-19. The Q screen has orbiting lights and moving telemetry bars. The
+robots run on a moving treadmill, lift a memory cube and wave at the evaluation
+station. The scene uses ceramic shells, metallic surfaces and teal studio lighting.
+The screen bars are decorative; they contain no measured results.
+
+The display, robot badges and memory cube use the existing QAgents journal-Q
+mark, with its periwinkle and mint colours for dark backgrounds. The large mark
+gently pulses as the orbit lights move. `brand/qagents-icon-dark.svg` preserves
+the original three-path geometry from QAgents' `assets/logo/qagents-icon.svg`
+(commit `1e7bc6fd9fc78ef562b1ab1f49d86f961c39d6f7`); its PNG texture is packed into the generated Blender file.
+The same SVG and a 32 px PNG appear in the private guide's header and favicon.
+
+The README and RL guide select `quentin-gym-future.webp` when the browser requests
+reduced motion. Otherwise, browsers load the animated WebP, with
+`quentin-gym-future.gif` as a compatibility fallback. The three files share the
+same composition and aspect ratio. Each animation has 72 frames with a 60 ms
+delay, repeating every 4.32 seconds.
+
+Rebuild using Blender 4.4+ and ImageMagick 7 from the repository root:
+
+```powershell
+magick -background none assets/brand/qagents-icon-dark.svg -resize 1024x1024 assets/brand/qagents-icon-dark.png
+magick -background none assets/brand/qagents-icon-dark.svg -resize 32x32 assets/brand/qagents-icon-32.png
+blender --background --threads 8 --python scripts/render_gym_animation.py -- --output .work/gym-animation
+magick -delay 6 -loop 0 '.work/gym-animation/frame-*.png' -resize 800x500 -quality 85 -define webp:method=5 assets/quentin-gym-future-animated.webp
+magick .work/gym-animation/frame-0001.png -resize 800x500 -colors 256 -unique-colors .work/gym-animation/palette.png
+magick -delay 6 -loop 0 '.work/gym-animation/frame-*.png' -resize 800x500 +dither -remap .work/gym-animation/palette.png -layers Optimize assets/quentin-gym-future.gif
+magick .work/gym-animation/frame-0001.png -quality 88 assets/quentin-gym-future.webp
+```
+
+The script saves an editable `.work/gym-animation/qagent-gym.blend` and all PNG
+frames. Add `--preview` to render a single frame. Blender and ImageMagick are
+artwork tools; neither is a Gym runtime dependency. Rendering uses Cycles with
+12 samples and denoising. Hardware and Blender versions can affect pixel output.
+
+## Earlier illustrations
+
 Generated on 2026-11-13 using the built-in image_gen tool. Both images were inspected for readable labels, cheerful team imagery and faithful depiction of context learning. These are illustrations, not benchmark results or a product screenshot.
 
 - `quentin-gym-hero.png`: friendly robot teammates practicing at memory, playbook, feedback and evaluation stations.
 - `quentin-gym-learning-loop.png`: Try → Reflect → Remember → Evaluate, with evaluation keeping memory fixed.
 
-- `quentin-rl-lab.webp` illustrates the RL guide. Generated with the built-in
+- `quentin-rl-lab.webp` was the original RL guide illustration. Generated with the built-in
   Codex ImageGen tool on 2026-11-18, using the Gym hero as a character and style
   reference.
 

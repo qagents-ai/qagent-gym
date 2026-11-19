@@ -5,6 +5,25 @@
   font-display: swap;
 }
 
+.md-header {
+  background-color: #102c3c;
+}
+
+.md-typeset .gym-cinema {
+  margin: 1rem 0;
+}
+
+.md-typeset .gym-cinema img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: .6rem;
+}
+
+body:has(.gym-home-cinema) .md-sidebar--secondary {
+  display: none;
+}
+
 body:has(.gym-hero) .md-sidebar--secondary {
   display: none;
 }
@@ -70,7 +89,7 @@ body:has(.gym-hero) .md-sidebar--secondary {
 .md-typeset .gym-guide-lead img {
   display: block;
   width: 100%;
-  aspect-ratio: 1752 / 897;
+  height: auto;
   border-radius: .35rem;
 }
 
