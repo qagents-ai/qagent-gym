@@ -159,6 +159,7 @@ It records which paths use fixtures and which contact your selected provider.
 | [Banking sandbox](docs/banking-example.md) | Exercise account ownership, transfers, idempotency and concurrent-spend checks in a persistent TEST ledger. |
 | [English and Greek voice](docs/voice-example.md) | Connect local recognition and synthesis to an agent with interruptions and latency measurements. |
 | [Background workers](docs/background-jobs.md) | Queue, cancel and recover runs using the QAgents runtime. |
+| [Repository activity](docs/repository-activity.md) | Ask what changed yesterday or last week using indexed commits, CI evidence and local queries. |
 
 The proposal needs real partner evidence and call-specific review before use.
 The banking example uses fictional TEST units. Each guide records its test setup
