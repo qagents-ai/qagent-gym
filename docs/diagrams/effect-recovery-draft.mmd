@@ -1,0 +1,35 @@
+flowchart TB
+  accTitle: Draft Effects lifecycle and recovery design
+  accDescr: Specification draft, not a claim of implemented release behavior. A frozen intent precedes send. Recovery replays a receipt or looks up the operation; an unknown outcome is held rather than blindly repeated.
+  draft["SPECIFICATION DRAFT\nImplementation and crash tests pending"]
+  request["Declare effect + business Key\nFreeze request and descriptor"]
+  authorize["Check authorization\nand lease ownership"]
+  intent[("Durable effect_intent")]
+  send["Send Attempt\nidempotency_key + operation_tag"]
+  result{"Outcome known?"}
+  commit[("Commit typed receipt\nOptional on_commit patch")]
+  rejected["Reject\nKnown refusal"]
+  held["HeldEffect\nUnknown outcome"]
+  recover["Recovery\nRead durable operation state"]
+  saved{"Committed receipt?"}
+  replay["Replay receipt\nNo provider send"]
+  lookup["Inquiry / Found\nLookup bound to operation"]
+  evidence{"Lookup evidence\nTable-driven decision"}
+  settle["Recheck or Settle\nExplicit resolution before resume"]
+  resend["Resend path\nRepeat authorization and intent checks"]
+  draft -.-> request
+  draft -.-> recover
+  request --> authorize --> intent --> send --> result
+  result -->|committed| commit
+  result -->|refused| rejected
+  result -->|unknown| held
+  recover --> saved
+  saved -->|yes| replay
+  saved -->|no| lookup --> evidence
+  evidence -->|receipt found| commit
+  evidence -->|safe resend evidence| resend
+  evidence -->|unknown| held --> settle
+  classDef warning fill:#fff6e6,stroke:#aa741f,color:#5f4316;
+  classDef good fill:#e7f3f1,stroke:#307b75;
+  class draft,held,settle warning;
+  class commit,replay good;

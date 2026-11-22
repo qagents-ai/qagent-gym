@@ -1,0 +1,70 @@
+{
+  "checked_at_utc": "2026-11-19T12:42:39.500507+00:00",
+  "platform": "Windows 11 x86-64",
+  "qagents_commit": "09413590db0845e77b4f8ecf57cb5a17041d9996",
+  "gym_runtime_commit": "69a6276f491632498f4037b8a5eaeda085d8fd09",
+  "checks": [
+    {
+      "name": "qagents-python-3.13",
+      "command": "python -m pytest -q",
+      "result": "3905 passed, 158 skipped, 1 warning in 368.27s (0:06:08)",
+      "log_sha256": "57f6b1324e0b1b79f809369d08149d8baa55f7424fc43c136cb82aa1f701db86"
+    },
+    {
+      "name": "qagents-python-3.11",
+      "command": "python -m pytest -q",
+      "result": "3870 passed, 162 skipped, 1 warning in 355.02s (0:05:55)",
+      "log_sha256": "dc9d0171cd7d4ff55754cf5f05b8003381b6ee7076ab55507fc7782bc89d78dc"
+    },
+    {
+      "name": "qagents-mutations",
+      "command": "QAGENTS_RUN_MUTATIONS=1 python -m pytest -q -m mutants tests/effects/mutants",
+      "result": "68 passed, 11 deselected in 213.53s (0:03:33)",
+      "log_sha256": "b3c8b16ebb09d106544aad16054b0f113e842495fe521e317f462ac810fa472a"
+    },
+    {
+      "name": "qagents-processes",
+      "command": "QAGENTS_RUN_PROCESS_TESTS=1 python -m pytest -q -m process tests/process",
+      "result": "26 passed in 784.35s (0:13:04)",
+      "log_sha256": "8f58d52816b6f9528aab0e8bd86726ad15d4d819346a055b4b8c521e03caeba3"
+    },
+    {
+      "name": "gym-source",
+      "command": "python -m pytest -q",
+      "result": "370 passed, 15 skipped in 17.51s",
+      "log_sha256": "948e461e846d3cab1e5f20a9c4baaedf338e6ec2ad93379e2fe6d87e2a8bee5b"
+    },
+    {
+      "name": "gym-installed-wheels",
+      "command": "python -m pytest -q",
+      "result": "370 passed, 15 skipped in 16.04s",
+      "log_sha256": "99fe341d820c4a0bafd8a76c238030f4366b3fb027002642c879ba670a344163"
+    }
+  ],
+  "native_replay": {
+    "rollouts": 80,
+    "trajectory_agreement": true,
+    "summary": "assets/benchmarks/environment-contracts/summary.json"
+  },
+  "additional_checks": [
+    "225 installed QAgents wheel evaluation/recovery tests",
+    "Both wheel/sdist builds",
+    "Strict guide builds",
+    "Executed FrozenLake guide snippet: reward 1, six transitions",
+    "Documentation API checks, lint and formatting",
+    "Incorrect estimator and duplicate-JSON mutation probes rejected",
+    "Two timer regressions fail on original main and pass on fixed source"
+  ],
+  "ci": {
+    "run_url": "https://github.com/mpvasilis/qagents/actions/runs/44525958295",
+    "state": "jobs_not_started",
+    "executed_steps_per_job": 0,
+    "reason": "The job was not started because an Actions budget is preventing further use."
+  },
+  "limits": [
+    "Local tests are Windows runs, not a Linux CI result.",
+    "No PostgreSQL service, live model provider or GPU optimizer was exercised.",
+    "Skipped tests are not counted as passes.",
+    "Scripted policies verify integration behavior, not model quality."
+  ]
+}

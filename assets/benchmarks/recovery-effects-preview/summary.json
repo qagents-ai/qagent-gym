@@ -1,0 +1,520 @@
+{
+  "qagents-effects/none/dedupe=True": {
+    "outcomes": {
+      "passed": 5
+    },
+    "timings": {
+      "first_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 812.6452,
+        "median_ms": 843.1437,
+        "p95_ms": 916.0309,
+        "max_ms": 916.0309
+      },
+      "complete_launch_to_result_ms": {
+        "n": 5,
+        "min_ms": 874.3191,
+        "median_ms": 900.6684,
+        "p95_ms": 984.4403,
+        "max_ms": 984.4403
+      },
+      "worker_work_ms": {
+        "n": 5,
+        "min_ms": 53.7055,
+        "median_ms": 63.2786,
+        "p95_ms": 69.9209,
+        "max_ms": 69.9209
+      },
+      "lease_acquisition_wait_ms": {
+        "n": 5,
+        "min_ms": 0.0,
+        "median_ms": 0.0,
+        "p95_ms": 0.0,
+        "max_ms": 0.0
+      }
+    }
+  },
+  "langgraph/none/dedupe=True": {
+    "outcomes": {
+      "passed": 5
+    },
+    "timings": {
+      "first_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 1529.6196,
+        "median_ms": 1572.2118,
+        "p95_ms": 1671.9845,
+        "max_ms": 1671.9845
+      },
+      "complete_launch_to_result_ms": {
+        "n": 5,
+        "min_ms": 1571.0414,
+        "median_ms": 1614.5856,
+        "p95_ms": 1712.3439,
+        "max_ms": 1712.3439
+      },
+      "worker_work_ms": {
+        "n": 5,
+        "min_ms": 36.0344,
+        "median_ms": 38.0358,
+        "p95_ms": 39.7636,
+        "max_ms": 39.7636
+      },
+      "lease_acquisition_wait_ms": {
+        "n": 5,
+        "min_ms": 0.0,
+        "median_ms": 0.0,
+        "p95_ms": 0.0,
+        "max_ms": 0.0
+      }
+    }
+  },
+  "qagents-effects/before_effect/dedupe=True": {
+    "outcomes": {
+      "passed": 5
+    },
+    "timings": {
+      "first_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 834.2644,
+        "median_ms": 866.6528,
+        "p95_ms": 899.805,
+        "max_ms": 899.805
+      },
+      "ready_to_fault_ms": {
+        "n": 5,
+        "min_ms": 22.195,
+        "median_ms": 33.8956,
+        "p95_ms": 49.7621,
+        "max_ms": 49.7621
+      },
+      "recovery_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 770.6466,
+        "median_ms": 865.6148,
+        "p95_ms": 910.5678,
+        "max_ms": 910.5678
+      },
+      "recovery_launch_to_result_ms": {
+        "n": 5,
+        "min_ms": 7125.2242,
+        "median_ms": 7135.8205,
+        "p95_ms": 7160.5202,
+        "max_ms": 7160.5202
+      },
+      "kill_to_result_ms": {
+        "n": 5,
+        "min_ms": 7135.7974,
+        "median_ms": 7150.3631,
+        "p95_ms": 7170.7335,
+        "max_ms": 7170.7335
+      },
+      "worker_work_ms": {
+        "n": 5,
+        "min_ms": 6233.2829,
+        "median_ms": 6266.3441,
+        "p95_ms": 6352.3137,
+        "max_ms": 6352.3137
+      },
+      "lease_acquisition_wait_ms": {
+        "n": 5,
+        "min_ms": 6139.759,
+        "median_ms": 6190.5825,
+        "p95_ms": 6288.5621,
+        "max_ms": 6288.5621
+      }
+    }
+  },
+  "langgraph/before_effect/dedupe=True": {
+    "outcomes": {
+      "passed": 5
+    },
+    "timings": {
+      "first_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 1507.1088,
+        "median_ms": 1630.5267,
+        "p95_ms": 1750.1778,
+        "max_ms": 1750.1778
+      },
+      "ready_to_fault_ms": {
+        "n": 5,
+        "min_ms": 11.3309,
+        "median_ms": 12.2116,
+        "p95_ms": 13.8183,
+        "max_ms": 13.8183
+      },
+      "recovery_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 1463.2546,
+        "median_ms": 1651.9584,
+        "p95_ms": 1993.8168,
+        "max_ms": 1993.8168
+      },
+      "recovery_launch_to_result_ms": {
+        "n": 5,
+        "min_ms": 1508.7038,
+        "median_ms": 1691.6735,
+        "p95_ms": 2055.6139,
+        "max_ms": 2055.6139
+      },
+      "kill_to_result_ms": {
+        "n": 5,
+        "min_ms": 1520.4111,
+        "median_ms": 1704.828,
+        "p95_ms": 2069.7919,
+        "max_ms": 2069.7919
+      },
+      "worker_work_ms": {
+        "n": 5,
+        "min_ms": 36.6756,
+        "median_ms": 42.4656,
+        "p95_ms": 64.537,
+        "max_ms": 64.537
+      },
+      "lease_acquisition_wait_ms": {
+        "n": 5,
+        "min_ms": 0.0,
+        "median_ms": 0.0,
+        "p95_ms": 0.0,
+        "max_ms": 0.0
+      }
+    }
+  },
+  "qagents-effects/after_commit_before_ack/dedupe=True": {
+    "outcomes": {
+      "passed": 5
+    },
+    "timings": {
+      "first_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 797.5985,
+        "median_ms": 836.7452,
+        "p95_ms": 1030.0909,
+        "max_ms": 1030.0909
+      },
+      "ready_to_fault_ms": {
+        "n": 5,
+        "min_ms": 45.5149,
+        "median_ms": 49.5454,
+        "p95_ms": 107.2687,
+        "max_ms": 107.2687
+      },
+      "recovery_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 795.2822,
+        "median_ms": 829.6425,
+        "p95_ms": 915.7961,
+        "max_ms": 915.7961
+      },
+      "recovery_launch_to_result_ms": {
+        "n": 5,
+        "min_ms": 7093.8721,
+        "median_ms": 7097.3635,
+        "p95_ms": 7292.3333,
+        "max_ms": 7292.3333
+      },
+      "kill_to_result_ms": {
+        "n": 5,
+        "min_ms": 7105.1847,
+        "median_ms": 7110.4856,
+        "p95_ms": 7304.4516,
+        "max_ms": 7304.4516
+      },
+      "worker_work_ms": {
+        "n": 5,
+        "min_ms": 6223.8361,
+        "median_ms": 6282.1029,
+        "p95_ms": 6371.7853,
+        "max_ms": 6371.7853
+      },
+      "lease_acquisition_wait_ms": {
+        "n": 5,
+        "min_ms": 6111.2365,
+        "median_ms": 6203.1693,
+        "p95_ms": 6232.7991,
+        "max_ms": 6232.7991
+      }
+    }
+  },
+  "langgraph/after_commit_before_ack/dedupe=True": {
+    "outcomes": {
+      "passed": 5
+    },
+    "timings": {
+      "first_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 1481.7349,
+        "median_ms": 1568.1618,
+        "p95_ms": 1653.5888,
+        "max_ms": 1653.5888
+      },
+      "ready_to_fault_ms": {
+        "n": 5,
+        "min_ms": 31.5838,
+        "median_ms": 32.2094,
+        "p95_ms": 34.4679,
+        "max_ms": 34.4679
+      },
+      "recovery_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 1511.6414,
+        "median_ms": 1581.9359,
+        "p95_ms": 1602.4564,
+        "max_ms": 1602.4564
+      },
+      "recovery_launch_to_result_ms": {
+        "n": 5,
+        "min_ms": 1546.4055,
+        "median_ms": 1623.8855,
+        "p95_ms": 1638.0669,
+        "max_ms": 1638.0669
+      },
+      "kill_to_result_ms": {
+        "n": 5,
+        "min_ms": 1575.4576,
+        "median_ms": 1637.5475,
+        "p95_ms": 1650.6709,
+        "max_ms": 1650.6709
+      },
+      "worker_work_ms": {
+        "n": 5,
+        "min_ms": 32.3422,
+        "median_ms": 34.3697,
+        "p95_ms": 39.5262,
+        "max_ms": 39.5262
+      },
+      "lease_acquisition_wait_ms": {
+        "n": 5,
+        "min_ms": 0.0,
+        "median_ms": 0.0,
+        "p95_ms": 0.0,
+        "max_ms": 0.0
+      }
+    }
+  },
+  "qagents-effects/after_checkpoint/dedupe=True": {
+    "outcomes": {
+      "passed": 5
+    },
+    "timings": {
+      "first_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 802.6826,
+        "median_ms": 827.7527,
+        "p95_ms": 1594.3843,
+        "max_ms": 1594.3843
+      },
+      "ready_to_fault_ms": {
+        "n": 5,
+        "min_ms": 50.2198,
+        "median_ms": 53.2222,
+        "p95_ms": 85.5315,
+        "max_ms": 85.5315
+      },
+      "recovery_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 800.0947,
+        "median_ms": 826.7055,
+        "p95_ms": 1746.3485,
+        "max_ms": 1746.3485
+      },
+      "recovery_launch_to_result_ms": {
+        "n": 5,
+        "min_ms": 7018.9114,
+        "median_ms": 7050.0087,
+        "p95_ms": 7059.6183,
+        "max_ms": 7059.6183
+      },
+      "kill_to_result_ms": {
+        "n": 5,
+        "min_ms": 7034.7817,
+        "median_ms": 7064.1856,
+        "p95_ms": 7069.7824,
+        "max_ms": 7069.7824
+      },
+      "worker_work_ms": {
+        "n": 5,
+        "min_ms": 5268.4666,
+        "median_ms": 6225.9218,
+        "p95_ms": 6256.3981,
+        "max_ms": 6256.3981
+      },
+      "lease_acquisition_wait_ms": {
+        "n": 5,
+        "min_ms": 5237.5348,
+        "median_ms": 6199.2791,
+        "p95_ms": 6230.3789,
+        "max_ms": 6230.3789
+      }
+    }
+  },
+  "langgraph/after_checkpoint/dedupe=True": {
+    "outcomes": {
+      "passed": 5
+    },
+    "timings": {
+      "first_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 1516.5527,
+        "median_ms": 1899.0798,
+        "p95_ms": 2270.7634,
+        "max_ms": 2270.7634
+      },
+      "ready_to_fault_ms": {
+        "n": 5,
+        "min_ms": 37.9847,
+        "median_ms": 49.3055,
+        "p95_ms": 67.0739,
+        "max_ms": 67.0739
+      },
+      "recovery_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 1505.2198,
+        "median_ms": 1940.3379,
+        "p95_ms": 2448.9817,
+        "max_ms": 2448.9817
+      },
+      "recovery_launch_to_result_ms": {
+        "n": 5,
+        "min_ms": 1517.8025,
+        "median_ms": 1953.6285,
+        "p95_ms": 2476.1467,
+        "max_ms": 2476.1467
+      },
+      "kill_to_result_ms": {
+        "n": 5,
+        "min_ms": 1531.7294,
+        "median_ms": 1971.4157,
+        "p95_ms": 2501.9072,
+        "max_ms": 2501.9072
+      },
+      "worker_work_ms": {
+        "n": 5,
+        "min_ms": 9.1479,
+        "median_ms": 9.6716,
+        "p95_ms": 11.8402,
+        "max_ms": 11.8402
+      },
+      "lease_acquisition_wait_ms": {
+        "n": 5,
+        "min_ms": 0.0,
+        "median_ms": 0.0,
+        "p95_ms": 0.0,
+        "max_ms": 0.0
+      }
+    }
+  },
+  "qagents-effects/after_commit_before_ack/dedupe=False": {
+    "outcomes": {
+      "expected_duplicate_detected": 5
+    },
+    "timings": {
+      "first_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 827.6151,
+        "median_ms": 894.7416,
+        "p95_ms": 950.7069,
+        "max_ms": 950.7069
+      },
+      "ready_to_fault_ms": {
+        "n": 5,
+        "min_ms": 47.993,
+        "median_ms": 53.6243,
+        "p95_ms": 73.6181,
+        "max_ms": 73.6181
+      },
+      "recovery_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 828.5835,
+        "median_ms": 850.0738,
+        "p95_ms": 942.4584,
+        "max_ms": 942.4584
+      },
+      "recovery_launch_to_result_ms": {
+        "n": 5,
+        "min_ms": 7089.3346,
+        "median_ms": 7115.7553,
+        "p95_ms": 7132.8955,
+        "max_ms": 7132.8955
+      },
+      "kill_to_result_ms": {
+        "n": 5,
+        "min_ms": 7102.0339,
+        "median_ms": 7126.4849,
+        "p95_ms": 7148.6376,
+        "max_ms": 7148.6376
+      },
+      "worker_work_ms": {
+        "n": 5,
+        "min_ms": 6148.5681,
+        "median_ms": 6250.2598,
+        "p95_ms": 6279.8229,
+        "max_ms": 6279.8229
+      },
+      "lease_acquisition_wait_ms": {
+        "n": 5,
+        "min_ms": 6082.3599,
+        "median_ms": 6179.7418,
+        "p95_ms": 6189.2101,
+        "max_ms": 6189.2101
+      }
+    }
+  },
+  "langgraph/after_commit_before_ack/dedupe=False": {
+    "outcomes": {
+      "expected_duplicate_detected": 5
+    },
+    "timings": {
+      "first_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 1476.6009,
+        "median_ms": 1654.8765,
+        "p95_ms": 1698.0973,
+        "max_ms": 1698.0973
+      },
+      "ready_to_fault_ms": {
+        "n": 5,
+        "min_ms": 32.1142,
+        "median_ms": 33.5528,
+        "p95_ms": 36.4799,
+        "max_ms": 36.4799
+      },
+      "recovery_launch_to_ready_ms": {
+        "n": 5,
+        "min_ms": 1514.3674,
+        "median_ms": 1764.6373,
+        "p95_ms": 1807.9249,
+        "max_ms": 1807.9249
+      },
+      "recovery_launch_to_result_ms": {
+        "n": 5,
+        "min_ms": 1574.628,
+        "median_ms": 1801.1345,
+        "p95_ms": 1849.453,
+        "max_ms": 1849.453
+      },
+      "kill_to_result_ms": {
+        "n": 5,
+        "min_ms": 1587.1999,
+        "median_ms": 1816.5515,
+        "p95_ms": 1864.9931,
+        "max_ms": 1864.9931
+      },
+      "worker_work_ms": {
+        "n": 5,
+        "min_ms": 33.1144,
+        "median_ms": 38.1766,
+        "p95_ms": 67.6556,
+        "max_ms": 67.6556
+      },
+      "lease_acquisition_wait_ms": {
+        "n": 5,
+        "min_ms": 0.0,
+        "median_ms": 0.0,
+        "p95_ms": 0.0,
+        "max_ms": 0.0
+      }
+    }
+  }
+}

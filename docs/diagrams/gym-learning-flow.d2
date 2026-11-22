@@ -1,0 +1,16 @@
+...@theme/gym
+direction: down
+
+context: "Scoped context\nPlaybook and memory" {class: store}
+train: Training {class: core}
+eval: Held-out evaluation {class: core}
+score_train: "Run a practice task\nand score the answer" {class: step}
+curate: "Reflect and curate\nSave validated context updates" {class: step}
+score_eval: "Score held-out tasks\nwith captured context" {class: step}
+log: "Record episodes\nContext stays frozen" {class: step}
+
+context -> train: Read context {class: flow}
+context -> eval: Capture context {class: flow}
+train -> score_train -> curate: {class: flow}
+eval -> score_eval -> log: {class: flow}
+curate -> context: Save lessons {class: flow}

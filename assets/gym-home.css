@@ -1,0 +1,260 @@
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("fonts/instrument-sans-latin-wght-normal.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+.md-header {
+  background-color: #30377e;
+}
+
+.md-typeset {
+  font-family: "Instrument Sans", "Segoe UI", sans-serif;
+  line-height: 1.7;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-weight: 650;
+  letter-spacing: -.02em;
+  line-height: 1.25;
+}
+
+.md-typeset p > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: .5rem;
+}
+
+.md-typeset .gym-cinema {
+  margin: 1rem 0;
+}
+
+.md-typeset .gym-cinema img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: .6rem;
+}
+
+body:has(.gym-home-cinema) .md-sidebar--secondary {
+  display: none;
+}
+
+body:has(.gym-hero) .md-sidebar--secondary {
+  display: none;
+}
+
+.md-typeset .gym-hero,
+.md-typeset .gym-paths,
+.md-typeset .gym-guide-lead {
+  --gym-ink: #18273b;
+  --gym-teal: #075a57;
+  --gym-paper: #f5f7fc;
+  --gym-mint: #e2f0eb;
+  --gym-rule: #b9d0ca;
+  color: var(--gym-ink);
+  font-family: "Instrument Sans", "Segoe UI", sans-serif;
+}
+
+.md-typeset .gym-hero {
+  display: grid;
+  grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr);
+  align-items: center;
+  gap: clamp(.85rem, 2.7vw, 2rem);
+  padding: clamp(.9rem, 2.7vw, 2rem);
+  background: var(--gym-paper);
+  border-block-end: .22rem solid var(--gym-teal);
+  margin-block: .65rem 1.5rem;
+}
+
+.md-typeset .gym-hero h1 {
+  margin: 0 0 .6rem;
+  color: var(--gym-ink);
+  font-weight: 700;
+  letter-spacing: -.052em;
+  font-size: clamp(1.9rem, 3.4vw, 3rem);
+  line-height: 1.02;
+}
+
+.md-typeset .gym-guide-lead {
+  padding: clamp(1rem, 3vw, 1.8rem);
+  margin-block: .5rem 1.75rem;
+  border-top: .22rem solid var(--gym-teal);
+  background: var(--gym-paper);
+}
+
+.md-typeset .gym-guide-lead h1 {
+  margin: 0 0 .6rem;
+  color: var(--gym-ink);
+  font-size: clamp(1.65rem, 3.3vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.md-typeset .gym-guide-lead > p {
+  max-width: 58ch;
+  margin: 0;
+}
+
+.md-typeset .gym-guide-lead > p:has(> img) {
+  max-width: none;
+  margin-top: 1rem;
+}
+
+.md-typeset .gym-guide-lead img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: .35rem;
+}
+
+.md-typeset .gym-diagram {
+  display: block;
+  margin: 1rem 0 1.45rem;
+  text-align: left;
+}
+
+.md-typeset .gym-diagram img {
+  display: block;
+  width: 100%;
+  border: 1px solid #b9d0ca;
+  border-radius: .55rem;
+}
+
+.md-typeset .gym-diagram figcaption {
+  max-width: 68ch;
+  margin: .55rem 0 0;
+  font-size: .8em;
+  font-style: normal;
+}
+
+.md-typeset .gym-hero__copy > p {
+  margin: 0 0 .75rem;
+  max-width: 36ch;
+}
+
+.md-typeset .gym-hero__copy > h1 + p {
+  font-size: clamp(.97rem, 1.5vw, 1.22rem);
+  font-weight: 650;
+  line-height: 1.18;
+  max-width: 22ch;
+}
+
+.md-typeset .gym-hero__art p {
+  margin: 0;
+}
+
+.md-typeset .gym-hero img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: .35rem;
+}
+
+.md-typeset .gym-actions p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem .65rem;
+  margin: 1rem 0 0;
+}
+
+.md-typeset .gym-actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: .65rem;
+  border-radius: .32rem;
+  font-weight: 650;
+  color: var(--gym-teal);
+  text-decoration: underline;
+  text-underline-offset: .16em;
+}
+
+.md-typeset .gym-actions a:first-child {
+  background: var(--gym-teal);
+  color: #fff;
+  text-decoration: none;
+}
+
+.md-typeset .gym-actions a:first-child:hover {
+  background: #12433e;
+}
+
+.md-typeset .gym-hero a:focus-visible,
+.md-typeset .gym-paths a:focus-visible,
+.md-typeset .gym-guide-lead a:focus-visible {
+  outline: 3px solid var(--gym-teal);
+  outline-offset: 4px;
+}
+
+.md-typeset .gym-paths {
+  padding: clamp(.75rem, 2vw, 1.2rem);
+  background: var(--gym-mint);
+  margin-block: 0 1.6rem;
+}
+
+.md-typeset .gym-paths h2 {
+  margin: 0 0 .65rem;
+  font-weight: 650;
+}
+
+.md-typeset .gym-paths__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.md-typeset .gym-paths__grid > div + div {
+  border-inline-start: 1px solid var(--gym-rule);
+  padding-inline-start: .85rem;
+  margin-inline-start: .85rem;
+}
+
+.md-typeset .gym-paths__grid h3 {
+  margin: 0;
+  font-size: .95rem;
+  font-weight: 650;
+}
+
+.md-typeset .gym-paths__grid a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--gym-teal);
+  text-decoration: underline;
+  text-underline-offset: .16em;
+}
+
+.md-typeset .gym-paths__grid p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 54rem) {
+  .md-typeset .gym-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .md-typeset .gym-hero__copy > p {
+    max-width: 52ch;
+  }
+}
+
+@media (max-width: 36rem) {
+  .md-typeset .gym-paths__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .md-typeset .gym-paths__grid > div + div {
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--gym-rule);
+    margin: .7rem 0 0;
+    padding: .35rem 0 0;
+  }
+}

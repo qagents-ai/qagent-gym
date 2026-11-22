@@ -1,0 +1,182 @@
+{
+  "mode": "native environments and frameworks; scripted decisions; no provider calls",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "cases_per_framework": 2,
+  "rollouts": 80,
+  "trajectory_agreement": true,
+  "dataset_revision": "ab19ba82376ecf6956679e9d616419b8d933ee30436ecf4100299d2df5bfa7c6",
+  "versions": {
+    "gymnasium": "1.4.0",
+    "langgraph": "1.2.23",
+    "langchain-core": "1.8.3",
+    "pydantic": "2.14.3"
+  },
+  "platform": "Windows-11-10.0.26200-SP0",
+  "reliability": {
+    "qagents": {
+      "dataset": "FrozenLake-boundary-contract",
+      "cases": [
+        {
+          "case": "deterministic",
+          "trials": 20,
+          "successes": 20,
+          "pass_rate": 1.0,
+          "estimates": [
+            {
+              "k": 1,
+              "pass_at_k": 1.0,
+              "pass_power_k": 1.0
+            },
+            {
+              "k": 3,
+              "pass_at_k": 1.0,
+              "pass_power_k": 1.0
+            }
+          ]
+        },
+        {
+          "case": "slippery",
+          "trials": 20,
+          "successes": 0,
+          "pass_rate": 0.0,
+          "estimates": [
+            {
+              "k": 1,
+              "pass_at_k": 0.0,
+              "pass_power_k": 0.0
+            },
+            {
+              "k": 3,
+              "pass_at_k": 0.0,
+              "pass_power_k": 0.0
+            }
+          ]
+        }
+      ],
+      "estimates": [
+        {
+          "k": 1,
+          "pass_at_k": 0.5,
+          "pass_power_k": 0.5
+        },
+        {
+          "k": 3,
+          "pass_at_k": 0.5,
+          "pass_power_k": 0.5
+        }
+      ]
+    },
+    "langgraph": {
+      "dataset": "FrozenLake-boundary-contract",
+      "cases": [
+        {
+          "case": "deterministic",
+          "trials": 20,
+          "successes": 20,
+          "pass_rate": 1.0,
+          "estimates": [
+            {
+              "k": 1,
+              "pass_at_k": 1.0,
+              "pass_power_k": 1.0
+            },
+            {
+              "k": 3,
+              "pass_at_k": 1.0,
+              "pass_power_k": 1.0
+            }
+          ]
+        },
+        {
+          "case": "slippery",
+          "trials": 20,
+          "successes": 0,
+          "pass_rate": 0.0,
+          "estimates": [
+            {
+              "k": 1,
+              "pass_at_k": 0.0,
+              "pass_power_k": 0.0
+            },
+            {
+              "k": 3,
+              "pass_at_k": 0.0,
+              "pass_power_k": 0.0
+            }
+          ]
+        }
+      ],
+      "estimates": [
+        {
+          "k": 1,
+          "pass_at_k": 0.5,
+          "pass_power_k": 0.5
+        },
+        {
+          "k": 3,
+          "pass_at_k": 0.5,
+          "pass_power_k": 0.5
+        }
+      ]
+    }
+  },
+  "paired": {
+    "dataset": "FrozenLake-boundary-contract",
+    "baseline": "qagents",
+    "current": "langgraph",
+    "metric": "pass_power_k",
+    "k": 1,
+    "mean_delta": 0.0,
+    "lower": 0.0,
+    "upper": 0.0,
+    "confidence": 0.95,
+    "resamples": 10000,
+    "seed": 0,
+    "case_deltas": [
+      [
+        "deterministic",
+        0.0
+      ],
+      [
+        "slippery",
+        0.0
+      ]
+    ]
+  },
+  "endings": {
+    "qagents": {
+      "terminated": 38,
+      "truncated": 2,
+      "max_steps": 0,
+      "policy_stopped": 0
+    },
+    "langgraph": {
+      "terminated": 38,
+      "truncated": 2,
+      "max_steps": 0,
+      "policy_stopped": 0
+    }
+  },
+  "usage_capture": "not collected by this boundary benchmark"
+}

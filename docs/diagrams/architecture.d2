@@ -1,0 +1,17 @@
+...@theme/gym
+direction: down
+
+host: "Host application\nIdentity, model and approvals" {class: step}
+agent: "QAgents runtime\nAgent, limits and permissions" {class: core}
+model: Model endpoint {class: external}
+tools: Authorized tools {class: step}
+journal: "Execution journal\nResume agent runs" {class: store}
+gym: "QAgent Gym\nScore runs and curate context" {class: core}
+gym_store: "Gym store\nEpisodes, playbooks and memory" {class: store}
+
+host -> agent: {class: flow}
+agent <-> model: {class: flow}
+agent -> tools: {class: flow}
+agent <-> journal: {class: flow}
+agent <-> gym: Context in / attempt out {class: flow}
+gym <-> gym_store: {class: flow}

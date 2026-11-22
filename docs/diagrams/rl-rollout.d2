@@ -1,0 +1,23 @@
+...@theme/gym
+direction: down
+
+run: Agent run + evaluator {class: core}
+gym: Gym episode and reward {class: core}
+data: Inspect AI / GEPA exports {class: step}
+gateway: "Agent Lightning Gateway\nCaptures sampled token IDs\nand log probabilities" {class: external}
+trainer: "External trainer\nUpdates the model policy" {class: external}
+
+run -> gym: Record result and score {class: flow}
+gym -> data: Prepare datasets {class: flow}
+run -> gateway: Route model requests {
+  class: flow
+  style.stroke-dash: 5
+}
+gym -> gateway: Send reward event {
+  class: flow
+  style.stroke-dash: 5
+}
+gateway -> trainer: Supply rollout data {
+  class: flow
+  style.stroke-dash: 5
+}
