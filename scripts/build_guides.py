@@ -1,4 +1,4 @@
-"""Build private/local Material guides without deleting or replacing output files.
+"""Build static Material guides without deleting or replacing output files.
 
 README becomes index.md; docs, assets and other root Markdown retain their paths.
 Stages and failed output are intentionally retained for inspection, never removed.
@@ -218,7 +218,7 @@ def build_guides(repo_root: Path, output: Path, *, site_url: str | None = None) 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--site-url", help="optional canonical private-host URL; does not deploy")
+    parser.add_argument("--site-url", help="optional canonical site URL; does not deploy")
     args = parser.parse_args(argv)
     try:
         report = build_guides(

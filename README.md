@@ -14,7 +14,7 @@ Context learning and evaluation for QAgents, with persistent playbooks and memor
 
 [Start here](docs/start-here.md) · [Examples](docs/examples.md) ·
 [Memory](docs/memory.md) · [Reinforcement learning](docs/rl.md) ·
-[Private handbook](https://quentin-qagents-guides.innovationbee.chatgpt.site/gym/) ·
+[Documentation](https://qagents-ai.github.io/qagent-gym/) ·
 [Still image](assets/quentin-gym-future.webp)
 
 ## Learning across tasks
@@ -206,15 +206,17 @@ optimizer run remain future work.
 
 ## Documentation
 
-The [private QAgents handbook](https://quentin-qagents-guides.innovationbee.chatgpt.site/)
-contains the Gym guides and QAgents runtime reference. To build the guides locally:
+Read the [public Gym documentation](https://qagents-ai.github.io/qagent-gym/),
+start with the [learning walkthrough](https://qagents-ai.github.io/qagent-gym/docs/start-here/),
+or open the [QAgents runtime reference](https://qagents-ai.github.io/qagents/).
+The sites update automatically from `main`. To build the Gym guides locally:
 
 ```console
 python -m pip install -e '.[docs]'
-python scripts/build_guides.py --output .work/guides
+python scripts/build_guides.py --output .work/guides --site-url https://qagents-ai.github.io/qagent-gym/
 ```
 
-See [private hosting](docs/guides-hosting.md), the
+See [building and hosting the guides](docs/guides-hosting.md), the
 [recovery benchmark](docs/recovery-benchmark.md), and
 [sources and licenses](docs/sources.md) for operational details and upstream references.
 

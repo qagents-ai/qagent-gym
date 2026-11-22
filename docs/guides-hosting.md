@@ -1,9 +1,23 @@
-# Build and host private guides
+# Build and host the guides
 
-The guides can be built as a complete static Material for MkDocs site. The build
-is local and does not create a server, deploy files, change repository visibility,
-or grant anyone access. The intended audience remains private and is controlled
-by the owner when choosing a hosting destination.
+The [public documentation](https://qagents-ai.github.io/qagent-gym/) is hosted on
+GitHub Pages. Its workflow builds a static Material for MkDocs site whenever
+`main` changes. Local builds use the same builder and do not deploy anything.
+
+## GitHub Pages
+
+The repository's `.github/workflows/pages.yml` builds the guides in a fresh
+directory, uploads only the static output and deploys it to GitHub Pages.
+The repository's Pages source is **GitHub Actions**. A manual run is available
+under **Actions > Publish documentation**.
+
+The workflow uses GitHub's short-lived deployment token. It needs no model API
+key or separate hosting secret. Canonical URLs and the repository's Website
+field point to `https://qagents-ai.github.io/qagent-gym/`.
+
+Every published page, asset and search-index entry is public. Private notes and
+credentials belong outside the documentation sources. The separate private
+handbook retains its own access controls.
 
 ## Build a local site
 
@@ -78,7 +92,8 @@ fall back to a public site or publish a public repository/workflow.
 The owner controls the final hosting action and audience. Building the files is
 not authorization to make them public. No hosting credentials or access tokens
 belong in this site, and static JavaScript must not contain a shared password.
-This repository contains no automatic public deployment workflow.
+The GitHub Pages workflow publishes the public documentation separately from
+any private handbook.
 
 Material 9.8.1 currently emits an upstream lifecycle notice during builds. The
 helper does not suppress it. Dependency upgrades and any future theme migration

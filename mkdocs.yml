@@ -1,4 +1,8 @@
 site_name: QAgent Gym
+site_url: https://qagents-ai.github.io/qagent-gym/
+repo_url: https://github.com/qagents-ai/qagent-gym
+repo_name: qagents-ai/qagent-gym
+edit_uri: ""
 site_description: Persistent context learning, frozen evaluation, and local agent examples.
 strict: true
 use_directory_urls: true
